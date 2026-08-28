@@ -1,1183 +1,279 @@
 ```html
-<!DOCTYPE html>
-<html lang="vi">
+<!-- ==========================
+     NẠP TIỀN
+=========================== -->
 
-<head>
+<section class="card topup-card">
 
-  <meta charset="UTF-8">
+  <h2 class="topup-title">
+    💰 Nạp tiền
+  </h2>
 
-  <meta
-    name="viewport"
-    content="width=device-width, initial-scale=1.0"
-  >
+  <p class="topup-subtitle">
+    Quét mã QR bên dưới để chuyển khoản
+  </p>
 
-  <title>Tài khoản - Vip6s2000 Shop</title>
 
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <!-- QR -->
 
+  <div class="qr-container">
 
-  <style>
-
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-      font-family: Arial, sans-serif;
-    }
-
-
-    body {
-      background: #0f1117;
-      color: white;
-      min-height: 100vh;
-    }
-
-
-    header {
-      height: 70px;
-      padding: 0 7%;
-      background: #151923;
-      border-bottom: 1px solid #292e3a;
-
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-    }
-
-
-    .logo {
-      color: white;
-      text-decoration: none;
-      font-size: 23px;
-      font-weight: bold;
-    }
-
-
-    .logo:hover {
-      opacity: .85;
-    }
-
-
-    .home {
-      color: #c8ceda;
-      text-decoration: none;
-      background: #202633;
-      padding: 10px 15px;
-      border-radius: 9px;
-    }
-
-
-    .home:hover {
-      opacity: .85;
-    }
-
-
-    main {
-      width: 92%;
-      max-width: 900px;
-      margin: 35px auto;
-    }
-
-
-    .card {
-      background: #171b24;
-      border: 1px solid #292e3a;
-      border-radius: 16px;
-      padding: 25px;
-      margin-bottom: 20px;
-    }
-
-
-    .card h1 {
-      font-size: 28px;
-      margin-bottom: 20px;
-    }
-
-
-    .card h2 {
-      font-size: 20px;
-      margin-bottom: 18px;
-    }
-
-
-    .info {
-      display: grid;
-      gap: 12px;
-    }
-
-
-    .row {
-      background: #202633;
-      border-radius: 10px;
-      padding: 15px;
-    }
-
-
-    .label {
-      color: #9299a8;
-      font-size: 13px;
-      margin-bottom: 5px;
-    }
-
-
-    .value {
-      font-size: 16px;
-      word-break: break-all;
-    }
-
-
-    .balance {
-      font-size: 30px;
-      font-weight: bold;
-    }
-
-
-    /* QR */
-
-    .qr-box {
-      text-align: center;
-      margin-bottom: 22px;
-    }
-
-
-    .qr-box img {
-      width: 260px;
-      max-width: 100%;
-      background: white;
-      padding: 10px;
-      border-radius: 14px;
-    }
-
-
-    .qr-title {
-      font-size: 17px;
-      font-weight: bold;
-      margin-bottom: 12px;
-    }
-
-
-    .qr-note {
-      color: #9da5b5;
-      font-size: 13px;
-      line-height: 1.6;
-      margin-top: 10px;
-    }
-
-
-    .form {
-      display: grid;
-      gap: 12px;
-    }
-
-
-    input,
-    textarea {
-
-      width: 100%;
-      padding: 13px;
-
-      border: 1px solid #343b4a;
-      border-radius: 10px;
-
-      background: #202633;
-      color: white;
-
-      outline: none;
-      font-size: 15px;
-    }
-
-
-    input:focus,
-    textarea:focus {
-      border-color: #68748a;
-    }
-
-
-    textarea {
-      min-height: 80px;
-      resize: vertical;
-    }
-
-
-    .button {
-
-      width: 100%;
-      padding: 13px;
-
-      border: none;
-      border-radius: 10px;
-
-      background: white;
-      color: #111;
-
-      font-weight: bold;
-      cursor: pointer;
-    }
-
-
-    .button:hover {
-      opacity: .85;
-    }
-
-
-    .button:disabled {
-      opacity: .5;
-      cursor: not-allowed;
-    }
-
-
-    .logout {
-
-      width: 100%;
-      padding: 13px;
-
-      border: none;
-      border-radius: 10px;
-
-      background: #2b303c;
-      color: white;
-
-      font-weight: bold;
-      cursor: pointer;
-
-      margin-top: 20px;
-    }
-
-
-    .logout:hover {
-      opacity: .85;
-    }
-
-
-    .list {
-      display: grid;
-      gap: 12px;
-    }
-
-
-    .item {
-      background: #202633;
-      border-radius: 10px;
-      padding: 15px;
-    }
-
-
-    .item-title {
-      font-weight: bold;
-      margin-bottom: 7px;
-    }
-
-
-    .item-info {
-      color: #9da5b5;
-      font-size: 14px;
-      line-height: 1.7;
-    }
-
-
-    .status {
-
-      display: inline-block;
-
-      margin-top: 8px;
-
-      padding: 5px 9px;
-
-      border-radius: 7px;
-
-      font-size: 12px;
-
-      font-weight: bold;
-    }
-
-
-    .pending {
-      background: #40371c;
-      color: #ffd86b;
-    }
-
-
-    .approved {
-      background: #193b2b;
-      color: #72e0a0;
-    }
-
-
-    .rejected {
-      background: #422126;
-      color: #ff8f9b;
-    }
-
-
-    .empty {
-
-      text-align: center;
-
-      color: #9299a8;
-
-      padding: 25px;
-
-      background: #202633;
-
-      border-radius: 10px;
-    }
-
-
-    @media (max-width: 600px) {
-
-      header {
-        padding: 0 5%;
-      }
-
-      .logo {
-        font-size: 18px;
-      }
-
-      .home {
-        padding: 8px 10px;
-        font-size: 13px;
-      }
-
-      main {
-        width: 92%;
-      }
-
-      .card {
-        padding: 18px;
-      }
-
-      .qr-box img {
-        width: 220px;
-      }
-
-    }
-
-  </style>
-
-</head>
-
-
-<body>
-
-
-<header>
-
-  <a
-    href="./index.html"
-    class="logo"
-  >
-    Vip6s2000 Shop
-  </a>
-
-
-  <a
-    href="./index.html"
-    class="home"
-  >
-    Trang chủ
-  </a>
-
-</header>
-
-
-<main>
-
-
-  <!-- ==========================
-       THÔNG TIN TÀI KHOẢN
-  =========================== -->
-
-  <section class="card">
-
-    <h1>
-      Tài khoản của tôi
-    </h1>
-
-
-    <div class="info">
-
-      <div class="row">
-
-        <div class="label">
-          Tên tài khoản
-        </div>
-
-        <div
-          class="value"
-          id="username"
-        >
-          Đang tải...
-        </div>
-
-      </div>
-
-
-      <div class="row">
-
-        <div class="label">
-          Email
-        </div>
-
-        <div
-          class="value"
-          id="email"
-        >
-          Đang tải...
-        </div>
-
-      </div>
-
-
-      <div class="row">
-
-        <div class="label">
-          Số dư
-        </div>
-
-        <div
-          class="balance"
-          id="balance"
-        >
-          0đ
-        </div>
-
-      </div>
-
-    </div>
-
-
-    <button
-      class="logout"
-      onclick="logout()"
-    >
-      Đăng xuất
-    </button>
-
-  </section>
-
-
-
-  <!-- ==========================
-       NẠP TIỀN
-  =========================== -->
-
-  <section class="card">
-
-    <h2>
-      Nạp tiền
-    </h2>
-
-
-    <div class="qr-box">
-
-      <div class="qr-title">
-        Quét mã QR để chuyển khoản
-      </div>
-
+    <div class="qr-frame">
 
       <img
         src="https://i.postimg.cc/wBX4sDtd/1787827694385-696929691253049774-8699560983222085822-94543adeb257cbe2ab14e39c8e798af6.jpg"
         alt="QR nạp tiền"
       >
 
-
-      <div class="qr-note">
-
-        Sau khi chuyển khoản,
-        nhập số tiền bên dưới
-        rồi bấm "Tôi đã chuyển khoản".
-
-        <br>
-
-        Yêu cầu sẽ được gửi cho admin
-        để kiểm tra và duyệt.
-
-      </div>
-
     </div>
 
+  </div>
 
-    <div class="form">
+
+  <div class="qr-hint">
+    Sau khi chuyển khoản thành công,
+    nhập thông tin bên dưới.
+  </div>
+
+
+  <!-- FORM -->
+
+  <div class="topup-form">
+
+
+    <div class="input-group">
+
+      <label for="topupAmount">
+        💰 Số tiền
+      </label>
 
       <input
         id="topupAmount"
         type="number"
         min="1"
-        placeholder="Nhập số tiền đã chuyển"
+        placeholder="Ví dụ: 100000"
       >
 
+    </div>
+
+
+    <div class="input-group">
+
+      <label for="topupNote">
+        📝 Nội dung chuyển khoản
+      </label>
 
       <textarea
         id="topupNote"
-        placeholder="Ghi chú hoặc nội dung chuyển khoản (nếu có)"
+        placeholder="Nhập nội dung chuyển khoản..."
       ></textarea>
 
-
-      <button
-        class="button"
-        id="topupButton"
-        onclick="createTopup()"
-      >
-        Tôi đã chuyển khoản
-      </button>
-
     </div>
 
-  </section>
 
-
-
-  <!-- ==========================
-       LỊCH SỬ NẠP
-  =========================== -->
-
-  <section class="card">
-
-    <h2>
-      Lịch sử nạp tiền
-    </h2>
-
-
-    <div
-      id="topups"
-      class="list"
+    <button
+      class="topup-button"
+      id="topupButton"
+      onclick="createTopup()"
     >
+      ✓ Tôi đã chuyển khoản
+    </button>
 
-      <div class="empty">
-        Đang tải...
-      </div>
+  </div>
 
-    </div>
+</section>
+```
 
-  </section>
+Thêm CSS này vào trong `<style>` của `account.html`:
 
+```css
+/* ==========================
+   GIAO DIỆN NẠP TIỀN
+========================== */
 
+.topup-card {
+  text-align: center;
+}
 
-  <!-- ==========================
-       LỊCH SỬ MUA
-  =========================== -->
+.topup-title {
+  font-size: 24px;
+  margin-bottom: 8px;
+}
 
-  <section class="card">
-
-    <h2>
-      Lịch sử mua hàng
-    </h2>
-
-
-    <div
-      id="orders"
-      class="list"
-    >
-
-      <div class="empty">
-        Đang tải...
-      </div>
-
-    </div>
-
-  </section>
-
-
-</main>
-
-
-<script>
-
-
-// =====================================
-// SUPABASE
-// =====================================
-
-const SUPABASE_URL =
-  "https://kyylvrhjtcbscdjoyxwn.supabase.co";
-
-
-const SUPABASE_KEY =
-  "sb_publishable_vcDgsPLVCyzMNIygMVDVoQ_f8t71Fad";
-
-
-const supabaseClient =
-  window.supabase.createClient(
-    SUPABASE_URL,
-    SUPABASE_KEY
-  );
-
-
-
-// =====================================
-// FORMAT TIỀN
-// =====================================
-
-function formatMoney(value) {
-
-  return Number(value || 0)
-    .toLocaleString("vi-VN") + "đ";
-
+.topup-subtitle {
+  color: #9da5b5;
+  font-size: 14px;
+  margin-bottom: 25px;
 }
 
 
+/* QR */
 
-// =====================================
-// FORMAT NGÀY
-// =====================================
+.qr-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 
-function formatDate(value) {
+.qr-frame {
+  background: white;
+  padding: 12px;
+  border-radius: 18px;
 
-  if (!value) {
-    return "Không rõ";
-  }
+  box-shadow:
+    0 10px 35px rgba(0, 0, 0, 0.35);
+}
 
-  return new Date(value)
-    .toLocaleString("vi-VN");
+.qr-frame img {
+  display: block;
 
+  width: 280px;
+  height: 280px;
+
+  max-width: 100%;
+
+  object-fit: contain;
+
+  border-radius: 10px;
 }
 
 
+.qr-hint {
+  color: #8f97a8;
 
-// =====================================
-// TẢI TÀI KHOẢN
-// =====================================
+  font-size: 13px;
 
-async function loadAccount() {
+  margin: 15px 0 25px;
 
-  const {
-    data: { user },
-    error
-  } =
-    await supabaseClient.auth.getUser();
-
-
-  if (error || !user) {
-
-    window.location.href =
-      "./index.html";
-
-    return null;
-
-  }
-
-
-  document.getElementById("email")
-    .textContent =
-      user.email || "Không có";
-
-
-  const {
-    data: profile,
-    error: profileError
-  } =
-    await supabaseClient
-
-      .from("profiles")
-
-      .select("username, balance")
-
-      .eq("id", user.id)
-
-      .maybeSingle();
-
-
-  if (profileError) {
-
-    console.error(profileError);
-
-    document.getElementById("username")
-      .textContent =
-        user.email.split("@")[0];
-
-    document.getElementById("balance")
-      .textContent =
-        "0đ";
-
-  }
-
-  else {
-
-    document.getElementById("username")
-      .textContent =
-        profile?.username ||
-        user.email.split("@")[0];
-
-
-    document.getElementById("balance")
-      .textContent =
-        formatMoney(
-          profile?.balance
-        );
-
-  }
-
-
-  return user;
-
+  line-height: 1.5;
 }
 
 
+/* FORM */
 
-// =====================================
-// TẠO YÊU CẦU NẠP
-// =====================================
+.topup-form {
+  max-width: 500px;
 
-async function createTopup() {
+  margin: 0 auto;
 
-  const amountInput =
-    document.getElementById(
-      "topupAmount"
-    );
+  text-align: left;
 
+  display: grid;
 
-  const noteInput =
-    document.getElementById(
-      "topupNote"
-    );
-
-
-  const button =
-    document.getElementById(
-      "topupButton"
-    );
-
-
-  const amount =
-    Number(amountInput.value);
-
-
-  const note =
-    noteInput.value.trim();
-
-
-  if (!amount || amount <= 0) {
-
-    alert(
-      "Vui lòng nhập số tiền hợp lệ."
-    );
-
-    return;
-
-  }
-
-
-  if (amount > 100000000) {
-
-    alert(
-      "Số tiền vượt quá giới hạn."
-    );
-
-    return;
-
-  }
-
-
-  button.disabled = true;
-
-  button.textContent =
-    "Đang gửi...";
-
-
-  const {
-    data,
-    error
-  } =
-    await supabaseClient.rpc(
-      "create_topup_request",
-      {
-        p_amount: amount,
-        p_note: note || null
-      }
-    );
-
-
-  button.disabled = false;
-
-  button.textContent =
-    "Tôi đã chuyển khoản";
-
-
-  if (error) {
-
-    console.error(error);
-
-    alert(
-      "Lỗi: " +
-      error.message
-    );
-
-    return;
-
-  }
-
-
-  if (!data || !data.success) {
-
-    alert(
-      data?.message ||
-      "Không thể tạo yêu cầu."
-    );
-
-    return;
-
-  }
-
-
-  alert(
-    "✅ Đã gửi yêu cầu nạp tiền.\n\n" +
-    "Vui lòng chờ admin kiểm tra."
-  );
-
-
-  amountInput.value = "";
-
-  noteInput.value = "";
-
-
-  await loadTopups();
-
+  gap: 16px;
 }
 
 
+.input-group {
+  display: grid;
 
-// =====================================
-// LỊCH SỬ NẠP
-// =====================================
-
-async function loadTopups() {
-
-  const container =
-    document.getElementById(
-      "topups"
-    );
-
-
-  const {
-    data: { user }
-  } =
-    await supabaseClient.auth.getUser();
-
-
-  if (!user) {
-    return;
-  }
-
-
-  const {
-    data,
-    error
-  } =
-    await supabaseClient
-
-      .from("topup_requests")
-
-      .select(
-        "id, amount, status, note, created_at, processed_at"
-      )
-
-      .eq(
-        "user_id",
-        user.id
-      )
-
-      .order(
-        "created_at",
-        {
-          ascending: false
-        }
-      );
-
-
-  if (error) {
-
-    console.error(error);
-
-    container.innerHTML = `
-
-      <div class="empty">
-
-        Không thể tải lịch sử nạp.
-
-      </div>
-
-    `;
-
-    return;
-
-  }
-
-
-  if (!data || data.length === 0) {
-
-    container.innerHTML = `
-
-      <div class="empty">
-
-        Chưa có yêu cầu nạp tiền.
-
-      </div>
-
-    `;
-
-    return;
-
-  }
-
-
-  container.innerHTML =
-
-    data.map(item => {
-
-      let statusText =
-        "Đang chờ";
-
-
-      let statusClass =
-        "pending";
-
-
-      if (item.status === "approved") {
-
-        statusText =
-          "Đã duyệt";
-
-        statusClass =
-          "approved";
-
-      }
-
-
-      if (item.status === "rejected") {
-
-        statusText =
-          "Từ chối";
-
-        statusClass =
-          "rejected";
-
-      }
-
-
-      return `
-
-        <div class="item">
-
-          <div class="item-title">
-
-            ${formatMoney(item.amount)}
-
-          </div>
-
-
-          <div class="item-info">
-
-            Tạo lúc:
-            ${formatDate(item.created_at)}
-
-            ${
-              item.note
-                ? `<br>Ghi chú: ${item.note}`
-                : ""
-            }
-
-            ${
-              item.processed_at
-                ? `<br>Xử lý:
-                   ${formatDate(item.processed_at)}`
-                : ""
-            }
-
-          </div>
-
-
-          <span
-            class="status ${statusClass}"
-          >
-            ${statusText}
-          </span>
-
-        </div>
-
-      `;
-
-    }).join("");
-
+  gap: 7px;
 }
 
 
+.input-group label {
+  color: #dce1ea;
 
-// =====================================
-// LỊCH SỬ MUA
-// =====================================
+  font-size: 14px;
 
-async function loadOrders() {
-
-  const container =
-    document.getElementById(
-      "orders"
-    );
-
-
-  const {
-    data: { user }
-  } =
-    await supabaseClient.auth.getUser();
-
-
-  if (!user) {
-    return;
-  }
-
-
-  const {
-    data,
-    error
-  } =
-    await supabaseClient
-
-      .from("orders")
-
-      .select("*")
-
-      .eq(
-        "user_id",
-        user.id
-      )
-
-      .order(
-        "created_at",
-        {
-          ascending: false
-        }
-      );
-
-
-  if (error) {
-
-    console.error(error);
-
-    container.innerHTML = `
-
-      <div class="empty">
-
-        Chưa có đơn hàng.
-
-      </div>
-
-    `;
-
-    return;
-
-  }
-
-
-  if (!data || data.length === 0) {
-
-    container.innerHTML = `
-
-      <div class="empty">
-
-        Bạn chưa mua sản phẩm nào.
-
-      </div>
-
-    `;
-
-    return;
-
-  }
-
-
-  container.innerHTML =
-
-    data.map(order => `
-
-      <div class="item">
-
-        <div class="item-title">
-
-          ${
-            order.product_name ||
-            "Sản phẩm"
-          }
-
-        </div>
-
-
-        <div class="item-info">
-
-          Giá:
-          ${formatMoney(order.price)}
-
-          <br>
-
-          Thời gian:
-          ${formatDate(order.created_at)}
-
-        </div>
-
-      </div>
-
-    `).join("");
-
+  font-weight: bold;
 }
 
 
+.input-group input,
+.input-group textarea {
 
-// =====================================
-// ĐĂNG XUẤT
-// =====================================
+  width: 100%;
 
-async function logout() {
+  padding: 14px;
 
-  const {
-    error
-  } =
-    await supabaseClient.auth.signOut();
+  background: #202633;
 
+  color: white;
 
-  if (error) {
+  border: 1px solid #343b4a;
 
-    alert(
-      "Không thể đăng xuất: " +
-      error.message
-    );
+  border-radius: 11px;
 
-    return;
+  outline: none;
 
-  }
+  font-size: 15px;
 
-
-  window.location.href =
-    "./index.html";
-
+  transition: .2s;
 }
 
 
+.input-group input:focus,
+.input-group textarea:focus {
+  border-color: #7d8799;
 
-// =====================================
-// KHỞI ĐỘNG
-// =====================================
-
-async function start() {
-
-  const user =
-    await loadAccount();
-
-
-  if (!user) {
-    return;
-  }
-
-
-  await loadTopups();
-
-  await loadOrders();
-
+  box-shadow:
+    0 0 0 3px rgba(125, 135, 153, .12);
 }
 
 
-start();
+.input-group textarea {
+  min-height: 90px;
 
-</script>
+  resize: vertical;
+}
 
-</body>
 
-</html>
+/* BUTTON */
+
+.topup-button {
+
+  width: 100%;
+
+  padding: 14px;
+
+  border: none;
+
+  border-radius: 11px;
+
+  background: white;
+
+  color: #111;
+
+  font-size: 15px;
+
+  font-weight: bold;
+
+  cursor: pointer;
+
+  transition: .2s;
+}
+
+
+.topup-button:hover {
+  transform: translateY(-1px);
+
+  opacity: .9;
+}
+
+
+.topup-button:disabled {
+  opacity: .5;
+
+  cursor: not-allowed;
+
+  transform: none;
+}
+
+
+/* MOBILE */
+
+@media (max-width: 600px) {
+
+  .qr-frame img {
+    width: 230px;
+
+    height: 230px;
+  }
+
+  .topup-title {
+    font-size: 22px;
+  }
+
+}
 ```
