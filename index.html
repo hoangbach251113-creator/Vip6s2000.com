@@ -1,4 +1,4 @@
-
+```html
 <!DOCTYPE html>
 <html lang="vi">
 <head>
@@ -35,10 +35,28 @@
       font-weight: bold;
     }
 
-    .balance {
+    .account-area {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .account-status {
       background: #202633;
       padding: 10px 15px;
       border-radius: 10px;
+    }
+
+    .account-link {
+      color: white;
+      text-decoration: none;
+      background: #343b49;
+      padding: 10px 15px;
+      border-radius: 10px;
+    }
+
+    .account-link:hover {
+      opacity: 0.85;
     }
 
     main {
@@ -103,18 +121,18 @@
       font-weight: bold;
     }
 
-    button {
+    .buy-button {
       width: 100%;
       padding: 11px;
       border: none;
       border-radius: 9px;
       cursor: pointer;
       font-weight: bold;
-      background: #ffffff;
+      background: white;
       color: #111;
     }
 
-    button:hover {
+    .buy-button:hover {
       opacity: 0.85;
     }
 
@@ -136,6 +154,20 @@
       main {
         width: 92%;
       }
+
+      .account-area {
+        gap: 6px;
+      }
+
+      .account-status,
+      .account-link {
+        padding: 8px 10px;
+        font-size: 13px;
+      }
+
+      .logo {
+        font-size: 19px;
+      }
     }
   </style>
 </head>
@@ -143,131 +175,350 @@
 <body>
 
 <header>
-  <div class="logo">Vip6s2000 Shop</div>
-<div>
-  <span id="accountStatus">Chưa đăng nhập</span>
-  <a href="account.html" id="accountLink">Đăng nhập</a>
-</div>
+
+  <div class="logo">
+    Vip6s2000 Shop
+  </div>
+
+  <div class="account-area">
+
+    <span
+      id="accountStatus"
+      class="account-status"
+    >
+      Đang kiểm tra...
+    </span>
+
+    <a
+      href="account.html"
+      id="accountLink"
+      class="account-link"
+    >
+      Đăng nhập
+    </a>
+
+  </div>
+
 </header>
+
 
 <main>
 
   <section class="hero">
-    <h1>Vip6s2000 Shop</h1>
-    <p>Shop sản phẩm số — nhanh chóng và tiện lợi.</p>
+
+    <h1>
+      Vip6s2000 Shop
+    </h1>
+
+    <p>
+      Shop sản phẩm số — nhanh chóng và tiện lợi.
+    </p>
+
   </section>
 
-  <h2 style="margin-bottom:20px;">Sản phẩm</h2>
 
-  <section id="products" class="products">
-    <div class="empty">Đang tải sản phẩm...</div>
+  <h2 style="margin-bottom:20px;">
+    Sản phẩm
+  </h2>
+
+
+  <section
+    id="products"
+    class="products"
+  >
+
+    <div class="empty">
+      Đang tải sản phẩm...
+    </div>
+
   </section>
 
 </main>
 
+
 <script>
-  const SUPABASE_URL = "https://kyylvrhjtcbscdjoyxwn.supabase.co";
-  const SUPABASE_KEY = "sb_publishable_vcDgsPLVCyzMNIygMVDVoQ_f8t71Fad";
 
-  const supabaseClient = window.supabase.createClient(
-    SUPABASE_URL,
-    SUPABASE_KEY
-  );
+  const SUPABASE_URL =
+    "https://kyylvrhjtcbscdjoyxwn.supabase.co";
 
-  async function loadProducts() {
-    const container = document.getElementById("products");
+  const SUPABASE_KEY =
+    "sb_publishable_vcDgsPLVCyzMNIygMVDVoQ_f8t71Fad";
 
-    const { data, error } = await supabaseClient
-      .from("products")
-      .select("*")
-      .order("created_at", { ascending: false });
 
-   if (error) {
-  container.innerHTML = `
-    <div class="empty">
-      Lỗi tải sản phẩm:<br>
-      ${error.message}
-    </div>
-  `;
-  console.error(error);
-  return;
-}
+  const supabaseClient =
+    window.supabase.createClient(
+      SUPABASE_URL,
+      SUPABASE_KEY
+    );
 
-    if (!data || data.length === 0) {
-      container.innerHTML =
-        '<div class="empty">Shop chưa có sản phẩm.</div>';
+
+  // =========================
+  // TẢI TÀI KHOẢN
+  // =========================
+
+  async function loadAccount() {
+
+    const status =
+      document.getElementById("accountStatus");
+
+    const link =
+      document.getElementById("accountLink");
+
+
+    const {
+      data: { user },
+      error: userError
+    } =
+      await supabaseClient.auth.getUser();
+
+
+    // Chưa đăng nhập
+
+    if (userError || !user) {
+
+      status.textContent =
+        "Chưa đăng nhập";
+
+      link.textContent =
+        "Đăng nhập";
+
+      link.href =
+        "account.html";
+
       return;
+
     }
 
-    container.innerHTML = data.map(product => `
-      <div class="product">
-        <img
-          src="${product.image_url || 'https://via.placeholder.com/500x350?text=Product'}"
-          alt="${product.name}"
-        >
 
-        <div class="product-info">
-          <h3>${product.name}</h3>
+    // Đã đăng nhập
+    // Lấy thông tin profile
 
-          <div class="description">
-            ${product.description || "Chưa có mô tả"}
-          </div>
+    const {
+      data: profile,
+      error: profileError
+    } =
+      await supabaseClient
 
-          <div class="price">
-            ${Number(product.price).toLocaleString("vi-VN")}đ
-          </div>
+        .from("profiles")
 
-          <button onclick="buyProduct('${product.id}')">
-            Mua ngay
-          </button>
-        </div>
-      </div>
-    `).join("");
+        .select("username, balance")
+
+        .eq("id", user.id)
+
+        .maybeSingle();
+
+
+    if (profileError) {
+
+      console.error(
+        "Profile error:",
+        profileError
+      );
+
+      status.textContent =
+        "Đã đăng nhập";
+
+      link.textContent =
+        "Tài khoản";
+
+      link.href =
+        "account.html";
+
+      return;
+
+    }
+
+
+    if (!profile) {
+
+      status.textContent =
+        "Tài khoản";
+
+      link.textContent =
+        "Tài khoản";
+
+      link.href =
+        "account.html";
+
+      return;
+
+    }
+
+
+    const username =
+      profile.username ||
+      user.email.split("@")[0];
+
+
+    const balance =
+      Number(profile.balance || 0)
+        .toLocaleString("vi-VN");
+
+
+    status.textContent =
+      username + " • " +
+      balance + "đ";
+
+
+    link.textContent =
+      "Tài khoản";
+
+    link.href =
+      "account.html";
+
   }
+
+
+  // =========================
+  // TẢI SẢN PHẨM
+  // =========================
+
+  async function loadProducts() {
+
+    const container =
+      document.getElementById("products");
+
+
+    const {
+      data,
+      error
+    } =
+      await supabaseClient
+
+        .from("products")
+
+        .select("*")
+
+        .order(
+          "created_at",
+          {
+            ascending: false
+          }
+        );
+
+
+    if (error) {
+
+      container.innerHTML = `
+
+        <div class="empty">
+
+          Lỗi tải sản phẩm:<br>
+
+          ${error.message}
+
+        </div>
+
+      `;
+
+      console.error(error);
+
+      return;
+
+    }
+
+
+    if (!data || data.length === 0) {
+
+      container.innerHTML = `
+
+        <div class="empty">
+
+          Shop chưa có sản phẩm.
+
+        </div>
+
+      `;
+
+      return;
+
+    }
+
+
+    container.innerHTML =
+
+      data.map(product => `
+
+        <div class="product">
+
+          <img
+            src="${
+              product.image_url ||
+              'https://via.placeholder.com/500x350?text=Product'
+            }"
+            alt="${product.name}"
+          >
+
+          <div class="product-info">
+
+            <h3>
+              ${product.name}
+            </h3>
+
+            <div class="description">
+
+              ${
+                product.description ||
+                "Chưa có mô tả"
+              }
+
+            </div>
+
+            <div class="price">
+
+              ${
+                Number(product.price)
+                  .toLocaleString("vi-VN")
+              }đ
+
+            </div>
+
+            <button
+              class="buy-button"
+              onclick="buyProduct('${product.id}')"
+            >
+              Mua ngay
+            </button>
+
+          </div>
+
+        </div>
+
+      `).join("");
+
+  }
+
+
+  // =========================
+  // MUA SẢN PHẨM
+  // =========================
 
   function buyProduct(id) {
+
     alert(
-      "Chức năng mua hàng sẽ được kết nối sau khi hoàn thành đăng nhập và ví tiền."
+      "Chức năng mua hàng sẽ được kết nối sau khi hoàn thành ví tiền."
     );
-  }
-async function loadAccount() {
-  const {
-    data: { user }
-  } = await supabaseClient.auth.getUser();
 
-  const status = document.getElementById("accountStatus");
-  const link = document.getElementById("accountLink");
-
-  if (!user) {
-    status.textContent = "Chưa đăng nhập";
-    link.textContent = "Đăng nhập";
-    link.href = "account.html";
-    return;
   }
 
-  const { data, error } = await supabaseClient
-    .from("profiles")
-    .select("username, balance")
-    .eq("id", user.id)
-    .maybeSingle();
 
-  if (error || !data) {
-    status.textContent = "Tài khoản";
-    link.textContent = "Tài khoản";
-    return;
+  // =========================
+  // KHỞI ĐỘNG SHOP
+  // =========================
+
+  async function startShop() {
+
+    await loadAccount();
+
+    await loadProducts();
+
   }
 
-  status.textContent =
-    data.username + " • " +
-    Number(data.balance).toLocaleString("vi-VN") + "đ";
 
-  link.textContent = "Tài khoản";
-  link.href = "account.html";
-}
+  startShop();
 
-loadProducts();
-  loadProducts();
 </script>
 
 </body>
 </html>
+```
