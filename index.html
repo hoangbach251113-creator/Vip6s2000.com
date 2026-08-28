@@ -144,9 +144,10 @@
 
 <header>
   <div class="logo">Vip6s2000 Shop</div>
-  <div class="balance">
-    Số dư: <span id="balance">0</span>đ
-  </div>
+<div>
+  <span id="accountStatus">Chưa đăng nhập</span>
+  <a href="account.html" id="accountLink">Đăng nhập</a>
+</div>
 </header>
 
 <main>
@@ -229,7 +230,42 @@
       "Chức năng mua hàng sẽ được kết nối sau khi hoàn thành đăng nhập và ví tiền."
     );
   }
+async function loadAccount() {
+  const {
+    data: { user }
+  } = await supabaseClient.auth.getUser();
 
+  const status = document.getElementById("accountStatus");
+  const link = document.getElementById("accountLink");
+
+  if (!user) {
+    status.textContent = "Chưa đăng nhập";
+    link.textContent = "Đăng nhập";
+    link.href = "account.html";
+    return;
+  }
+
+  const { data, error } = await supabaseClient
+    .from("profiles")
+    .select("username, balance")
+    .eq("id", user.id)
+    .maybeSingle();
+
+  if (error || !data) {
+    status.textContent = "Tài khoản";
+    link.textContent = "Tài khoản";
+    return;
+  }
+
+  status.textContent =
+    data.username + " • " +
+    Number(data.balance).toLocaleString("vi-VN") + "đ";
+
+  link.textContent = "Tài khoản";
+  link.href = "account.html";
+}
+
+loadProducts();
   loadProducts();
 </script>
 
