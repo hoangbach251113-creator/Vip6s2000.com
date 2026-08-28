@@ -1,8 +1,10 @@
+```html
 <!DOCTYPE html>
 <html lang="vi">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
   <title>Tài khoản - Vip6s2000 Shop</title>
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
@@ -10,138 +12,300 @@
   <style>
     * {
       box-sizing: border-box;
+      margin: 0;
+      padding: 0;
       font-family: Arial, sans-serif;
     }
 
     body {
-      margin: 0;
-      min-height: 100vh;
       background: #0f1117;
       color: white;
-      display: flex;
-      align-items: center;
-      justify-content: center;
+      min-height: 100vh;
     }
 
-    .box {
-      width: 90%;
-      max-width: 420px;
+    header {
+      height: 70px;
+      padding: 0 7%;
+      background: #151923;
+      border-bottom: 1px solid #292e3a;
+
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    /* LOGO */
+
+    .logo {
+      color: white;
+      text-decoration: none;
+      font-size: 23px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .logo:hover {
+      opacity: 0.85;
+    }
+
+    /* NÚT TRANG CHỦ */
+
+    .home {
+      color: #c8ceda;
+      text-decoration: none;
+      background: #202633;
+      padding: 10px 15px;
+      border-radius: 9px;
+      cursor: pointer;
+    }
+
+    .home:hover {
+      opacity: 0.85;
+    }
+
+    main {
+      width: 92%;
+      max-width: 900px;
+      margin: 35px auto;
+    }
+
+    .card {
       background: #171b24;
       border: 1px solid #292e3a;
       border-radius: 16px;
       padding: 25px;
+      margin-bottom: 20px;
     }
 
-    h1 {
-      text-align: center;
-      margin-bottom: 25px;
+    .card h1 {
+      font-size: 28px;
+      margin-bottom: 20px;
     }
 
-    input {
-      width: 100%;
-      padding: 13px;
-      margin: 7px 0;
-      border: 1px solid #343b49;
-      border-radius: 9px;
-      background: #0f1117;
-      color: white;
+    .card h2 {
+      font-size: 20px;
+      margin-bottom: 18px;
     }
 
-    button {
-      width: 100%;
-      padding: 13px;
-      margin-top: 10px;
-      border: 0;
-      border-radius: 9px;
-      cursor: pointer;
+    .info {
+      display: grid;
+      gap: 12px;
+    }
+
+    .row {
+      background: #202633;
+      border-radius: 10px;
+      padding: 15px;
+    }
+
+    .label {
+      color: #9299a8;
+      font-size: 13px;
+      margin-bottom: 5px;
+    }
+
+    .value {
+      font-size: 16px;
+      word-break: break-all;
+    }
+
+    .balance {
+      font-size: 30px;
       font-weight: bold;
     }
 
-    .switch {
-      background: transparent;
-      color: #aaa;
+    .logout {
+      width: 100%;
+      padding: 13px;
+      border: none;
+      border-radius: 10px;
+      background: white;
+      color: #111;
+      font-weight: bold;
+      cursor: pointer;
+      margin-top: 20px;
     }
 
-    .message {
-      margin-top: 15px;
+    .logout:hover {
+      opacity: 0.85;
+    }
+
+    .orders {
+      display: grid;
+      gap: 12px;
+    }
+
+    .order {
+      background: #202633;
+      border-radius: 10px;
+      padding: 15px;
+    }
+
+    .order-name {
+      font-weight: bold;
+      margin-bottom: 7px;
+    }
+
+    .order-info {
+      color: #9da5b5;
+      font-size: 14px;
+    }
+
+    .empty {
       text-align: center;
-      color: #aaa;
+      color: #9299a8;
+      padding: 25px;
+      background: #202633;
+      border-radius: 10px;
     }
 
-    #registerBox {
-      display: none;
+    @media (max-width: 600px) {
+
+      header {
+        padding: 0 5%;
+      }
+
+      .logo {
+        font-size: 18px;
+      }
+
+      .home {
+        padding: 8px 10px;
+        font-size: 13px;
+      }
+
+      main {
+        width: 92%;
+      }
+
+      .card {
+        padding: 18px;
+      }
+
     }
   </style>
 </head>
 
 <body>
 
-<div class="box">
+<header>
 
-  <!-- LOGIN -->
-  <div id="loginBox">
-    <h1>Đăng nhập</h1>
+  <!-- BẤM LOGO → TRANG SẢN PHẨM -->
 
-    <input
-      id="loginEmail"
-      type="email"
-      placeholder="Email"
+  <a
+    href="./index.html"
+    class="logo"
+  >
+    Vip6s2000 Shop
+  </a>
+
+
+  <!-- BẤM TRANG CHỦ → TRANG SẢN PHẨM -->
+
+  <a
+    href="./index.html"
+    class="home"
+  >
+    Trang chủ
+  </a>
+
+</header>
+
+
+<main>
+
+  <!-- THÔNG TIN TÀI KHOẢN -->
+
+  <section class="card">
+
+    <h1>
+      Tài khoản của tôi
+    </h1>
+
+    <div class="info">
+
+      <div class="row">
+
+        <div class="label">
+          Tên tài khoản
+        </div>
+
+        <div
+          class="value"
+          id="username"
+        >
+          Đang tải...
+        </div>
+
+      </div>
+
+
+      <div class="row">
+
+        <div class="label">
+          Email
+        </div>
+
+        <div
+          class="value"
+          id="email"
+        >
+          Đang tải...
+        </div>
+
+      </div>
+
+
+      <div class="row">
+
+        <div class="label">
+          Số dư
+        </div>
+
+        <div
+          class="balance"
+          id="balance"
+        >
+          0đ
+        </div>
+
+      </div>
+
+    </div>
+
+
+    <button
+      class="logout"
+      onclick="logout()"
     >
-
-    <input
-      id="loginPassword"
-      type="password"
-      placeholder="Mật khẩu"
-    >
-
-    <button onclick="login()">
-      Đăng nhập
+      Đăng xuất
     </button>
 
-    <button class="switch" onclick="showRegister()">
-      Chưa có tài khoản? Đăng ký
-    </button>
-
-    <div class="message" id="loginMessage"></div>
-  </div>
+  </section>
 
 
-  <!-- REGISTER -->
-  <div id="registerBox">
+  <!-- LỊCH SỬ MUA HÀNG -->
 
-    <h1>Đăng ký</h1>
+  <section class="card">
 
-    <input
-      id="registerUsername"
-      type="text"
-      placeholder="Tên tài khoản"
+    <h2>
+      Lịch sử mua hàng
+    </h2>
+
+    <div
+      id="orders"
+      class="orders"
     >
 
-    <input
-      id="registerEmail"
-      type="email"
-      placeholder="Email"
-    >
+      <div class="empty">
+        Đang tải lịch sử...
+      </div>
 
-    <input
-      id="registerPassword"
-      type="password"
-      placeholder="Mật khẩu"
-    >
+    </div>
 
-    <button onclick="register()">
-      Tạo tài khoản
-    </button>
+  </section>
 
-    <button class="switch" onclick="showLogin()">
-      Đã có tài khoản? Đăng nhập
-    </button>
-
-    <div class="message" id="registerMessage"></div>
-
-  </div>
-
-</div>
+</main>
 
 
 <script>
@@ -152,6 +316,7 @@ const SUPABASE_URL =
 const SUPABASE_KEY =
   "sb_publishable_vcDgsPLVCyzMNIygMVDVoQ_f8t71Fad";
 
+
 const supabaseClient =
   window.supabase.createClient(
     SUPABASE_URL,
@@ -159,126 +324,240 @@ const supabaseClient =
   );
 
 
-function showRegister() {
+// ============================
+// TẢI TÀI KHOẢN
+// ============================
 
-  document.getElementById("loginBox")
-    .style.display = "none";
+async function loadAccount() {
 
-  document.getElementById("registerBox")
-    .style.display = "block";
-
-}
-
-
-function showLogin() {
-
-  document.getElementById("registerBox")
-    .style.display = "none";
-
-  document.getElementById("loginBox")
-    .style.display = "block";
-
-}
+  const {
+    data: { user },
+    error
+  } =
+    await supabaseClient.auth.getUser();
 
 
-async function register() {
+  if (error || !user) {
+
+    window.location.href =
+      "./index.html";
+
+    return;
+
+  }
+
+
+  document.getElementById("email")
+    .textContent =
+      user.email || "Không có";
+
+
+  const {
+    data: profile,
+    error: profileError
+  } =
+    await supabaseClient
+
+      .from("profiles")
+
+      .select("username, balance")
+
+      .eq("id", user.id)
+
+      .maybeSingle();
+
+
+  if (profileError) {
+
+    console.error(profileError);
+
+    document.getElementById("username")
+      .textContent =
+        user.email.split("@")[0];
+
+    document.getElementById("balance")
+      .textContent =
+        "0đ";
+
+    return;
+
+  }
+
 
   const username =
-    document.getElementById("registerUsername")
-      .value.trim();
+    profile?.username ||
+    user.email.split("@")[0];
 
-  const email =
-    document.getElementById("registerEmail")
-      .value.trim();
 
-  const password =
-    document.getElementById("registerPassword")
-      .value;
+  const balance =
+    Number(profile?.balance || 0)
+      .toLocaleString("vi-VN");
 
-  const message =
-    document.getElementById("registerMessage");
 
-  if (!username || !email || !password) {
+  document.getElementById("username")
+    .textContent =
+      username;
 
-    message.textContent =
-      "Vui lòng nhập đầy đủ thông tin.";
 
-    return;
+  document.getElementById("balance")
+    .textContent =
+      balance + "đ";
 
-  }
 
-  if (password.length < 6) {
+  loadOrders(user.id);
 
-    message.textContent =
-      "Mật khẩu cần ít nhất 6 ký tự.";
+}
 
-    return;
 
-  }
+// ============================
+// LỊCH SỬ ĐƠN HÀNG
+// ============================
 
-  const { data, error } =
-    await supabaseClient.auth.signUp({
+async function loadOrders(userId) {
 
-      email,
-      password,
+  const container =
+    document.getElementById("orders");
 
-      options: {
-        data: {
-          username: username
+
+  const {
+    data,
+    error
+  } =
+    await supabaseClient
+
+      .from("orders")
+
+      .select("*")
+
+      .eq("user_id", userId)
+
+      .order(
+        "created_at",
+        {
+          ascending: false
         }
-      }
+      );
 
-    });
 
   if (error) {
 
-    message.textContent =
-      "Lỗi: " + error.message;
+    console.error(error);
+
+    container.innerHTML = `
+
+      <div class="empty">
+
+        Chưa có đơn hàng.
+
+      </div>
+
+    `;
 
     return;
 
   }
 
-  message.textContent =
-    "✅ Đăng ký thành công. Kiểm tra email nếu hệ thống yêu cầu xác nhận.";
 
-}
+  if (!data || data.length === 0) {
 
+    container.innerHTML = `
 
-async function login() {
+      <div class="empty">
 
-  const email =
-    document.getElementById("loginEmail")
-      .value.trim();
+        Bạn chưa mua sản phẩm nào.
 
-  const password =
-    document.getElementById("loginPassword")
-      .value;
+      </div>
 
-  const message =
-    document.getElementById("loginMessage");
-
-  const { error } =
-    await supabaseClient.auth
-      .signInWithPassword({
-        email,
-        password
-      });
-
-  if (error) {
-
-    message.textContent =
-      "Lỗi: " + error.message;
+    `;
 
     return;
 
   }
 
-  window.location.href = "index.html";
+
+  container.innerHTML =
+
+    data.map(order => `
+
+      <div class="order">
+
+        <div class="order-name">
+
+          ${
+            order.product_name ||
+            "Sản phẩm"
+          }
+
+        </div>
+
+        <div class="order-info">
+
+          Giá:
+
+          ${
+            Number(order.price || 0)
+              .toLocaleString("vi-VN")
+          }đ
+
+          <br>
+
+          Thời gian:
+
+          ${
+            order.created_at
+              ? new Date(
+                  order.created_at
+                ).toLocaleString("vi-VN")
+              : "Không rõ"
+          }
+
+        </div>
+
+      </div>
+
+    `).join("");
 
 }
+
+
+// ============================
+// ĐĂNG XUẤT
+// ============================
+
+async function logout() {
+
+  const {
+    error
+  } =
+    await supabaseClient.auth.signOut();
+
+
+  if (error) {
+
+    alert(
+      "Không thể đăng xuất: " +
+      error.message
+    );
+
+    return;
+
+  }
+
+
+  window.location.href =
+    "./index.html";
+
+}
+
+
+// ============================
+// KHỞI ĐỘNG
+// ============================
+
+loadAccount();
 
 </script>
 
 </body>
 </html>
+```
