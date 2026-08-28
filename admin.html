@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin - Vip6s2000 Shop</title>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
+    }
+
+    body {
+      background: #0f1117;
+      color: white;
+      padding: 30px;
+    }
+
+    .container {
+      max-width: 900px;
+      margin: auto;
+    }
+
+    h1 {
+      margin-bottom: 25px;
+    }
+
+    .box {
+      background: #171b24;
+      border: 1px solid #292e3a;
+      border-radius: 15px;
+      padding: 20px;
+      margin-bottom: 20px;
+    }
+
+    input,
+    textarea {
+      width: 100%;
+      padding: 12px;
+      margin: 8px 0 14px;
+      border-radius: 8px;
+      border: 1px solid #343b49;
+      background: #0f1117;
+      color: white;
+    }
+
+    textarea {
+      min-height: 100px;
+      resize: vertical;
+    }
+
+    button {
+      padding: 11px 16px;
+      border: 0;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: bold;
+      margin-right: 8px;
+    }
+
+    .product {
+      border-top: 1px solid #292e3a;
+      padding: 15px 0;
+    }
+
+    .product:first-child {
+      border-top: 0;
+    }
+
+    .delete {
+      background: #d33;
+      color: white;
+    }
+
+    .logout {
+      background: #ddd;
+    }
+
+    .message {
+      margin-top: 10px;
+      color: #bbb;
+    }
+
+    #adminPanel {
+      display: none;
+    }
+  </style>
+</head>
+
+<body>
+
+<div class="container">
+
+  <h1>👑 Vip6s2000 Admin</h1>
+
+  <!-- LOGIN -->
+  <div class="box" id="loginBox">
+    <h2>Đăng nhập Admin</h2>
+
+    <input
+      type="email"
+      id="email"
+      placeholder="Email"
+    >
+
+    <input
+      type="password"
+      id="password"
+      placeholder="Mật khẩu"
+    >
+
+    <button onclick="login()">Đăng nhập</button>
+
+    <div class="message" id="loginMessage"></div>
+  </div>
+
+
+  <!-- ADMIN -->
+  <div id="adminPanel">
+
+    <div class="box">
+      <h2>Thêm sản phẩm</h2>
+
+      <input
+        id="productName"
+        placeholder="Tên sản phẩm"
+      >
+
+      <textarea
+        id="productDescription"
+        placeholder="Mô tả sản phẩm"
+      ></textarea>
+
+      <input
+        id="productPrice"
+        type="number"
+        placeholder="Giá"
+      >
+
+      <input
+        id="productImage"
+        placeholder="Link ảnh sản phẩm"
+      >
+
+      <input
+        id="productStock"
+        type="number"
+        value="0"
+        placeholder="Số lượng"
+      >
+
+      <button onclick="addProduct()">
+        ➕ Thêm sản phẩm
+      </button>
+
+      <div class="message" id="addMessage"></div>
+    </div>
+
+
+    <div class="box">
+      <h2>Danh sách sản phẩm</h2>
+
+      <div id="productList">
+        Đang tải...
+      </div>
+    </div>
+
+    <button class="logout" onclick="logout()">
+      Đăng xuất
+    </button>
+
+  </div>
+
+</div>
+
+
+<script>
+
+  const SUPABASE_URL =
+    "https://kyylvrhjtcbscdjoyxwn.supabase.co";
+
+  const SUPABASE_KEY =
+    "DÁN_PUBLISHABLE_KEY_CỦA_BẠN_VÀO_ĐÂY";
+
+  const supabaseClient =
+    window.supabase.createClient(
+      SUPABASE_URL,
+      SUPABASE_KEY
+    );
+
+
+  async function login() {
+
+    const email =
+      document.getElementById("email").value;
+
+    const password =
+      document.getElementById("password").value;
+
+    const message =
+      document.getElementById("loginMessage");
+
+    const { data, error } =
+      await supabaseClient.auth.signInWithPassword({
+        email,
+        password
+      });
+
+    if (error) {
+      message.textContent =
+        "Đăng nhập lỗi: " + error.message;
+      return;
+    }
+
+    await checkAdmin();
+
+  }
+
+
+  async function checkAdmin() {
+
+    const {
+      data: { user }
+    } = await supabaseClient.auth.getUser();
+
+    if (!user) {
+      return;
+    }
+
+    const { data, error } =
+      await supabaseClient
+        .from("admin_users")
+        .select("user_id")
+        .eq("user_id", user.id)
+        .maybeSingle();
+
+    if (error || !data) {
+
+      await supabaseClient.auth.signOut();
+
+      document.getElementById("loginMessage")
+        .textContent =
+        "Tài khoản này không có quyền Admin.";
+
+      return;
+    }
+
+    document.getElementById("loginBox")
+      .style.display = "none";
+
+    document.getElementById("adminPanel")
+      .style.display = "block";
+
+    loadProducts();
+
+  }
+
+
+  async function addProduct() {
+
+    const name =
+      document.getElementById("productName").value.trim();
+
+    const description =
+      document.getElementById("productDescription").value.trim();
+
+    const price =
+      Number(document.getElementById("productPrice").value);
+
+    const image_url =
+      document.getElementById("productImage").value.trim();
+
+    const stock =
+      Number(document.getElementById("productStock").value);
+
+    const message =
+      document.getElementById("addMessage");
+
+    if (!name || !price) {
+      message.textContent =
+        "Vui lòng nhập tên và giá.";
+      return;
+    }
+
+    const { error } =
+      await supabaseClient
+        .from("products")
+        .insert({
+          name,
+          description,
+          price,
+          image_url,
+          stock
+        });
+
+    if (error) {
+      message.textContent =
+        "Lỗi: " + error.message;
+      return;
+    }
+
+    message.textContent =
+      "✅ Đã thêm sản phẩm.";
+
+    document.getElementById("productName").value = "";
+    document.getElementById("productDescription").value = "";
+    document.getElementById("productPrice").value = "";
+    document.getElementById("productImage").value = "";
+    document.getElementById("productStock").value = "0";
+
+    loadProducts();
+
+  }
+
+
+  async function loadProducts() {
+
+    const list =
+      document.getElementById("productList");
+
+    const { data, error } =
+      await supabaseClient
+        .from("products")
+        .select("*")
+        .order("created_at", {
+          ascending: false
+        });
+
+    if (error) {
+      list.textContent =
+        "Không thể tải sản phẩm.";
+      return;
+    }
+
+    if (!data.length) {
+      list.textContent =
+        "Chưa có sản phẩm.";
+      return;
+    }
+
+    list.innerHTML =
+      data.map(product => `
+        <div class="product">
+
+          <strong>${escapeHtml(product.name)}</strong>
+
+          <div>
+            Giá:
+            ${Number(product.price)
+              .toLocaleString("vi-VN")}đ
+          </div>
+
+          <div>
+            Tồn kho: ${product.stock}
+          </div>
+
+          <br>
+
+          <button
+            class="delete"
+            onclick="deleteProduct('${product.id}')"
+          >
+            🗑️ Xóa
+          </button>
+
+        </div>
+      `).join("");
+
+  }
+
+
+  async function deleteProduct(id) {
+
+    if (!confirm("Xóa sản phẩm này?")) {
+      return;
+    }
+
+    const { error } =
+      await supabaseClient
+        .from("products")
+        .delete()
+        .eq("id", id);
+
+    if (error) {
+      alert("Không thể xóa: " + error.message);
+      return;
+    }
+
+    loadProducts();
+
+  }
+
+
+  async function logout() {
+
+    await supabaseClient.auth.signOut();
+
+    location.reload();
+
+  }
+
+
+  function escapeHtml(text) {
+
+    return String(text)
+      .replaceAll("&", "&amp;")
+      .replaceAll("<", "&lt;")
+      .replaceAll(">", "&gt;")
+      .replaceAll('"', "&quot;")
+      .replaceAll("'", "&#039;");
+
+  }
+
+
+  checkAdmin();
+
+</script>
+
+</body>
+</html>
