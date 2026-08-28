@@ -5,7 +5,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <title>Vip6s2000 Shop</title>
+  <title>Tài khoản - Vip6s2000 Shop</title>
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
@@ -20,132 +20,158 @@
     body {
       background: #0f1117;
       color: white;
+      min-height: 100vh;
     }
 
     header {
-      padding: 20px 7%;
+      height: 70px;
+      padding: 0 7%;
       background: #151923;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
       border-bottom: 1px solid #292e3a;
+
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
     }
 
     .logo {
-      font-size: 24px;
+      color: white;
+      text-decoration: none;
+      font-size: 23px;
       font-weight: bold;
     }
 
-    #accountStatus {
+    .home {
+      color: #c8ceda;
+      text-decoration: none;
       background: #202633;
       padding: 10px 15px;
-      border-radius: 10px;
-      font-size: 14px;
-    }
-
-    main {
-      width: 86%;
-      max-width: 1200px;
-      margin: 35px auto;
-    }
-
-    .hero {
-      background: linear-gradient(135deg, #202633, #171a24);
-      padding: 40px;
-      border-radius: 18px;
-      margin-bottom: 30px;
-    }
-
-    .hero h1 {
-      font-size: 38px;
-      margin-bottom: 10px;
-    }
-
-    .hero p {
-      color: #aeb5c4;
-    }
-
-    .products {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
-      gap: 20px;
-    }
-
-    .product {
-      background: #171b24;
-      border: 1px solid #292e3a;
-      border-radius: 15px;
-      overflow: hidden;
-    }
-
-    .product img {
-      width: 100%;
-      height: 180px;
-      object-fit: cover;
-      background: #222733;
-    }
-
-    .product-info {
-      padding: 18px;
-    }
-
-    .product h3 {
-      margin-bottom: 8px;
-    }
-
-    .description {
-      color: #9da5b5;
-      font-size: 14px;
-      min-height: 40px;
-    }
-
-    .price {
-      margin: 15px 0;
-      font-size: 20px;
-      font-weight: bold;
-    }
-
-    .buy-button {
-      width: 100%;
-      padding: 11px;
-      border: none;
       border-radius: 9px;
-      cursor: pointer;
-      font-weight: bold;
-      background: white;
-      color: #111;
     }
 
-    .buy-button:hover {
+    .home:hover {
       opacity: 0.85;
     }
 
+    main {
+      width: 92%;
+      max-width: 900px;
+      margin: 35px auto;
+    }
+
+    .card {
+      background: #171b24;
+      border: 1px solid #292e3a;
+      border-radius: 16px;
+      padding: 25px;
+      margin-bottom: 20px;
+    }
+
+    .card h1 {
+      font-size: 28px;
+      margin-bottom: 20px;
+    }
+
+    .card h2 {
+      font-size: 20px;
+      margin-bottom: 18px;
+    }
+
+    .info {
+      display: grid;
+      gap: 12px;
+    }
+
+    .row {
+      background: #202633;
+      border-radius: 10px;
+      padding: 15px;
+    }
+
+    .label {
+      color: #9299a8;
+      font-size: 13px;
+      margin-bottom: 5px;
+    }
+
+    .value {
+      font-size: 16px;
+      word-break: break-all;
+    }
+
+    .balance {
+      font-size: 30px;
+      font-weight: bold;
+    }
+
+    .logout {
+      width: 100%;
+      padding: 13px;
+      border: none;
+      border-radius: 10px;
+      background: white;
+      color: #111;
+      font-weight: bold;
+      cursor: pointer;
+      margin-top: 20px;
+    }
+
+    .logout:hover {
+      opacity: 0.85;
+    }
+
+    .orders {
+      display: grid;
+      gap: 12px;
+    }
+
+    .order {
+      background: #202633;
+      border-radius: 10px;
+      padding: 15px;
+    }
+
+    .order-name {
+      font-weight: bold;
+      margin-bottom: 7px;
+    }
+
+    .order-info {
+      color: #9da5b5;
+      font-size: 14px;
+    }
+
     .empty {
-      padding: 40px;
       text-align: center;
       color: #9299a8;
+      padding: 25px;
+      background: #202633;
+      border-radius: 10px;
+    }
+
+    .error {
+      color: #ff8d8d;
+      background: #351d22;
+      padding: 15px;
+      border-radius: 10px;
+      margin-bottom: 15px;
     }
 
     @media (max-width: 600px) {
       header {
-        padding: 15px 5%;
+        padding: 0 5%;
+      }
+
+      .logo {
+        font-size: 18px;
       }
 
       main {
         width: 92%;
       }
 
-      .logo {
-        font-size: 19px;
-      }
-
-      #accountStatus {
-        padding: 8px 10px;
-        font-size: 12px;
-      }
-
-      .hero h1 {
-        font-size: 28px;
+      .card {
+        padding: 18px;
       }
     }
   </style>
@@ -155,41 +181,109 @@
 
 <header>
 
-  <div class="logo">
+  <a href="index.html" class="logo">
     Vip6s2000 Shop
-  </div>
+  </a>
 
-  <span id="accountStatus">
-    Đang kiểm tra...
-  </span>
+  <a href="index.html" class="home">
+    Trang chủ
+  </a>
 
 </header>
 
 
 <main>
 
-  <section class="hero">
+  <div id="message"></div>
+
+
+  <!-- THÔNG TIN TÀI KHOẢN -->
+
+  <section class="card">
 
     <h1>
-      Vip6s2000 Shop
+      Tài khoản của tôi
     </h1>
 
-    <p>
-      Shop sản phẩm số — nhanh chóng và tiện lợi.
-    </p>
+    <div class="info">
+
+      <div class="row">
+
+        <div class="label">
+          Tên tài khoản
+        </div>
+
+        <div
+          class="value"
+          id="username"
+        >
+          Đang tải...
+        </div>
+
+      </div>
+
+
+      <div class="row">
+
+        <div class="label">
+          Email
+        </div>
+
+        <div
+          class="value"
+          id="email"
+        >
+          Đang tải...
+        </div>
+
+      </div>
+
+
+      <div class="row">
+
+        <div class="label">
+          Số dư
+        </div>
+
+        <div
+          class="balance"
+          id="balance"
+        >
+          0đ
+        </div>
+
+      </div>
+
+    </div>
+
+
+    <button
+      class="logout"
+      onclick="logout()"
+    >
+      Đăng xuất
+    </button>
 
   </section>
 
 
-  <h2 style="margin-bottom:20px;">
-    Sản phẩm
-  </h2>
+  <!-- LỊCH SỬ ĐƠN HÀNG -->
 
+  <section class="card">
 
-  <section id="products" class="products">
+    <h2>
+      Lịch sử mua hàng
+    </h2>
 
-    <div class="empty">
-      Đang tải sản phẩm...
+    <div
+      id="orders"
+      class="orders"
+    >
+
+      <div class="empty">
+        Đang tải lịch sử...
+      </div>
+
     </div>
 
   </section>
@@ -214,14 +308,10 @@ const supabaseClient =
 
 
 // ============================
-// HIỂN THỊ USER
+// KIỂM TRA ĐĂNG NHẬP
 // ============================
 
 async function loadAccount() {
-
-  const status =
-    document.getElementById("accountStatus");
-
 
   const {
     data: { user },
@@ -232,13 +322,22 @@ async function loadAccount() {
 
   if (error || !user) {
 
-    status.textContent =
-      "Chưa đăng nhập";
+    window.location.href =
+      "account.html";
 
     return;
 
   }
 
+
+  document.getElementById("email")
+    .textContent =
+      user.email || "Không có";
+
+
+  // ==========================
+  // LẤY PROFILE
+  // ==========================
 
   const {
     data: profile,
@@ -261,8 +360,13 @@ async function loadAccount() {
       profileError
     );
 
-    status.textContent =
-      user.email;
+    document.getElementById("username")
+      .textContent =
+        user.email.split("@")[0];
+
+    document.getElementById("balance")
+      .textContent =
+        "0đ";
 
     return;
 
@@ -279,21 +383,29 @@ async function loadAccount() {
       .toLocaleString("vi-VN");
 
 
-  status.textContent =
-    username + " • " +
-    balance + "đ";
+  document.getElementById("username")
+    .textContent =
+      username;
+
+
+  document.getElementById("balance")
+    .textContent =
+      balance + "đ";
+
+
+  loadOrders(user.id);
 
 }
 
 
 // ============================
-// HIỂN THỊ SẢN PHẨM
+// LỊCH SỬ ĐƠN HÀNG
 // ============================
 
-async function loadProducts() {
+async function loadOrders(userId) {
 
   const container =
-    document.getElementById("products");
+    document.getElementById("orders");
 
 
   const {
@@ -302,9 +414,11 @@ async function loadProducts() {
   } =
     await supabaseClient
 
-      .from("products")
+      .from("orders")
 
       .select("*")
+
+      .eq("user_id", userId)
 
       .order(
         "created_at",
@@ -316,19 +430,21 @@ async function loadProducts() {
 
   if (error) {
 
+    console.error(
+      "Orders error:",
+      error
+    );
+
+
     container.innerHTML = `
 
       <div class="empty">
 
-        Lỗi tải sản phẩm:<br>
-
-        ${error.message}
+        Chưa có đơn hàng.
 
       </div>
 
     `;
-
-    console.error(error);
 
     return;
 
@@ -341,7 +457,7 @@ async function loadProducts() {
 
       <div class="empty">
 
-        Shop chưa có sản phẩm.
+        Bạn chưa mua sản phẩm nào.
 
       </div>
 
@@ -354,48 +470,37 @@ async function loadProducts() {
 
   container.innerHTML =
 
-    data.map(product => `
+    data.map(order => `
 
-      <div class="product">
+      <div class="order">
 
-        <img
-          src="${
-            product.image_url ||
-            "https://via.placeholder.com/500x350?text=Product"
-          }"
-          alt="${product.name}"
-        >
+        <div class="order-name">
 
-        <div class="product-info">
+          ${
+            order.product_name ||
+            "Sản phẩm"
+          }
 
-          <h3>
-            ${product.name}
-          </h3>
+        </div>
 
-          <div class="description">
+        <div class="order-info">
 
-            ${
-              product.description ||
-              "Chưa có mô tả"
-            }
+          Giá:
+          ${
+            Number(order.price || 0)
+              .toLocaleString("vi-VN")
+          }đ
 
-          </div>
+          <br>
 
-          <div class="price">
-
-            ${
-              Number(product.price)
-                .toLocaleString("vi-VN")
-            }đ
-
-          </div>
-
-          <button
-            class="buy-button"
-            onclick="buyProduct('${product.id}')"
-          >
-            Mua ngay
-          </button>
+          Thời gian:
+          ${
+            order.created_at
+              ? new Date(
+                  order.created_at
+                ).toLocaleString("vi-VN")
+              : "Không rõ"
+          }
 
         </div>
 
@@ -407,14 +512,31 @@ async function loadProducts() {
 
 
 // ============================
-// MUA SẢN PHẨM
+// ĐĂNG XUẤT
 // ============================
 
-function buyProduct(id) {
+async function logout() {
 
-  alert(
-    "Chức năng mua hàng sẽ được kết nối sau."
-  );
+  const {
+    error
+  } =
+    await supabaseClient.auth.signOut();
+
+
+  if (error) {
+
+    alert(
+      "Không thể đăng xuất: " +
+      error.message
+    );
+
+    return;
+
+  }
+
+
+  window.location.href =
+    "index.html";
 
 }
 
@@ -423,16 +545,7 @@ function buyProduct(id) {
 // KHỞI ĐỘNG
 // ============================
 
-async function startShop() {
-
-  await loadAccount();
-
-  await loadProducts();
-
-}
-
-
-startShop();
+loadAccount();
 
 </script>
 
