@@ -1,15 +1,23 @@
 ```html
 <!DOCTYPE html>
 <html lang="vi">
+
 <head>
+
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
 
   <title>Tài khoản - Vip6s2000 Shop</title>
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
+
   <style>
+
     * {
       box-sizing: border-box;
       margin: 0;
@@ -17,11 +25,13 @@
       font-family: Arial, sans-serif;
     }
 
+
     body {
       background: #0f1117;
       color: white;
       min-height: 100vh;
     }
+
 
     header {
       height: 70px;
@@ -34,21 +44,19 @@
       justify-content: space-between;
     }
 
-    /* LOGO */
 
     .logo {
       color: white;
       text-decoration: none;
       font-size: 23px;
       font-weight: bold;
-      cursor: pointer;
     }
+
 
     .logo:hover {
-      opacity: 0.85;
+      opacity: .85;
     }
 
-    /* NÚT TRANG CHỦ */
 
     .home {
       color: #c8ceda;
@@ -56,18 +64,20 @@
       background: #202633;
       padding: 10px 15px;
       border-radius: 9px;
-      cursor: pointer;
     }
 
+
     .home:hover {
-      opacity: 0.85;
+      opacity: .85;
     }
+
 
     main {
       width: 92%;
       max-width: 900px;
       margin: 35px auto;
     }
+
 
     .card {
       background: #171b24;
@@ -77,20 +87,24 @@
       margin-bottom: 20px;
     }
 
+
     .card h1 {
       font-size: 28px;
       margin-bottom: 20px;
     }
+
 
     .card h2 {
       font-size: 20px;
       margin-bottom: 18px;
     }
 
+
     .info {
       display: grid;
       gap: 12px;
     }
+
 
     .row {
       background: #202633;
@@ -98,66 +112,216 @@
       padding: 15px;
     }
 
+
     .label {
       color: #9299a8;
       font-size: 13px;
       margin-bottom: 5px;
     }
 
+
     .value {
       font-size: 16px;
       word-break: break-all;
     }
+
 
     .balance {
       font-size: 30px;
       font-weight: bold;
     }
 
-    .logout {
-      width: 100%;
-      padding: 13px;
-      border: none;
-      border-radius: 10px;
+
+    /* QR */
+
+    .qr-box {
+      text-align: center;
+      margin-bottom: 22px;
+    }
+
+
+    .qr-box img {
+      width: 260px;
+      max-width: 100%;
       background: white;
-      color: #111;
+      padding: 10px;
+      border-radius: 14px;
+    }
+
+
+    .qr-title {
+      font-size: 17px;
       font-weight: bold;
-      cursor: pointer;
-      margin-top: 20px;
+      margin-bottom: 12px;
     }
 
-    .logout:hover {
-      opacity: 0.85;
+
+    .qr-note {
+      color: #9da5b5;
+      font-size: 13px;
+      line-height: 1.6;
+      margin-top: 10px;
     }
 
-    .orders {
+
+    .form {
       display: grid;
       gap: 12px;
     }
 
-    .order {
+
+    input,
+    textarea {
+
+      width: 100%;
+      padding: 13px;
+
+      border: 1px solid #343b4a;
+      border-radius: 10px;
+
+      background: #202633;
+      color: white;
+
+      outline: none;
+      font-size: 15px;
+    }
+
+
+    input:focus,
+    textarea:focus {
+      border-color: #68748a;
+    }
+
+
+    textarea {
+      min-height: 80px;
+      resize: vertical;
+    }
+
+
+    .button {
+
+      width: 100%;
+      padding: 13px;
+
+      border: none;
+      border-radius: 10px;
+
+      background: white;
+      color: #111;
+
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+
+    .button:hover {
+      opacity: .85;
+    }
+
+
+    .button:disabled {
+      opacity: .5;
+      cursor: not-allowed;
+    }
+
+
+    .logout {
+
+      width: 100%;
+      padding: 13px;
+
+      border: none;
+      border-radius: 10px;
+
+      background: #2b303c;
+      color: white;
+
+      font-weight: bold;
+      cursor: pointer;
+
+      margin-top: 20px;
+    }
+
+
+    .logout:hover {
+      opacity: .85;
+    }
+
+
+    .list {
+      display: grid;
+      gap: 12px;
+    }
+
+
+    .item {
       background: #202633;
       border-radius: 10px;
       padding: 15px;
     }
 
-    .order-name {
+
+    .item-title {
       font-weight: bold;
       margin-bottom: 7px;
     }
 
-    .order-info {
+
+    .item-info {
       color: #9da5b5;
       font-size: 14px;
+      line-height: 1.7;
     }
 
+
+    .status {
+
+      display: inline-block;
+
+      margin-top: 8px;
+
+      padding: 5px 9px;
+
+      border-radius: 7px;
+
+      font-size: 12px;
+
+      font-weight: bold;
+    }
+
+
+    .pending {
+      background: #40371c;
+      color: #ffd86b;
+    }
+
+
+    .approved {
+      background: #193b2b;
+      color: #72e0a0;
+    }
+
+
+    .rejected {
+      background: #422126;
+      color: #ff8f9b;
+    }
+
+
     .empty {
+
       text-align: center;
+
       color: #9299a8;
+
       padding: 25px;
+
       background: #202633;
+
       border-radius: 10px;
     }
+
 
     @media (max-width: 600px) {
 
@@ -182,15 +346,21 @@
         padding: 18px;
       }
 
+      .qr-box img {
+        width: 220px;
+      }
+
     }
+
   </style>
+
 </head>
+
 
 <body>
 
-<header>
 
-  <!-- BẤM LOGO → TRANG SẢN PHẨM -->
+<header>
 
   <a
     href="./index.html"
@@ -199,8 +369,6 @@
     Vip6s2000 Shop
   </a>
 
-
-  <!-- BẤM TRANG CHỦ → TRANG SẢN PHẨM -->
 
   <a
     href="./index.html"
@@ -214,13 +382,17 @@
 
 <main>
 
-  <!-- THÔNG TIN TÀI KHOẢN -->
+
+  <!-- ==========================
+       THÔNG TIN TÀI KHOẢN
+  =========================== -->
 
   <section class="card">
 
     <h1>
       Tài khoản của tôi
     </h1>
+
 
     <div class="info">
 
@@ -284,7 +456,106 @@
   </section>
 
 
-  <!-- LỊCH SỬ MUA HÀNG -->
+
+  <!-- ==========================
+       NẠP TIỀN
+  =========================== -->
+
+  <section class="card">
+
+    <h2>
+      Nạp tiền
+    </h2>
+
+
+    <div class="qr-box">
+
+      <div class="qr-title">
+        Quét mã QR để chuyển khoản
+      </div>
+
+
+      <img
+        src="https://i.postimg.cc/wBX4sDtd/1787827694385-696929691253049774-8699560983222085822-94543adeb257cbe2ab14e39c8e798af6.jpg"
+        alt="QR nạp tiền"
+      >
+
+
+      <div class="qr-note">
+
+        Sau khi chuyển khoản,
+        nhập số tiền bên dưới
+        rồi bấm "Tôi đã chuyển khoản".
+
+        <br>
+
+        Yêu cầu sẽ được gửi cho admin
+        để kiểm tra và duyệt.
+
+      </div>
+
+    </div>
+
+
+    <div class="form">
+
+      <input
+        id="topupAmount"
+        type="number"
+        min="1"
+        placeholder="Nhập số tiền đã chuyển"
+      >
+
+
+      <textarea
+        id="topupNote"
+        placeholder="Ghi chú hoặc nội dung chuyển khoản (nếu có)"
+      ></textarea>
+
+
+      <button
+        class="button"
+        id="topupButton"
+        onclick="createTopup()"
+      >
+        Tôi đã chuyển khoản
+      </button>
+
+    </div>
+
+  </section>
+
+
+
+  <!-- ==========================
+       LỊCH SỬ NẠP
+  =========================== -->
+
+  <section class="card">
+
+    <h2>
+      Lịch sử nạp tiền
+    </h2>
+
+
+    <div
+      id="topups"
+      class="list"
+    >
+
+      <div class="empty">
+        Đang tải...
+      </div>
+
+    </div>
+
+  </section>
+
+
+
+  <!-- ==========================
+       LỊCH SỬ MUA
+  =========================== -->
 
   <section class="card">
 
@@ -292,26 +563,34 @@
       Lịch sử mua hàng
     </h2>
 
+
     <div
       id="orders"
-      class="orders"
+      class="list"
     >
 
       <div class="empty">
-        Đang tải lịch sử...
+        Đang tải...
       </div>
 
     </div>
 
   </section>
 
+
 </main>
 
 
 <script>
 
+
+// =====================================
+// SUPABASE
+// =====================================
+
 const SUPABASE_URL =
   "https://kyylvrhjtcbscdjoyxwn.supabase.co";
+
 
 const SUPABASE_KEY =
   "sb_publishable_vcDgsPLVCyzMNIygMVDVoQ_f8t71Fad";
@@ -324,9 +603,40 @@ const supabaseClient =
   );
 
 
-// ============================
+
+// =====================================
+// FORMAT TIỀN
+// =====================================
+
+function formatMoney(value) {
+
+  return Number(value || 0)
+    .toLocaleString("vi-VN") + "đ";
+
+}
+
+
+
+// =====================================
+// FORMAT NGÀY
+// =====================================
+
+function formatDate(value) {
+
+  if (!value) {
+    return "Không rõ";
+  }
+
+  return new Date(value)
+    .toLocaleString("vi-VN");
+
+}
+
+
+
+// =====================================
 // TẢI TÀI KHOẢN
-// ============================
+// =====================================
 
 async function loadAccount() {
 
@@ -342,7 +652,7 @@ async function loadAccount() {
     window.location.href =
       "./index.html";
 
-    return;
+    return null;
 
   }
 
@@ -379,44 +689,340 @@ async function loadAccount() {
       .textContent =
         "0đ";
 
+  }
+
+  else {
+
+    document.getElementById("username")
+      .textContent =
+        profile?.username ||
+        user.email.split("@")[0];
+
+
+    document.getElementById("balance")
+      .textContent =
+        formatMoney(
+          profile?.balance
+        );
+
+  }
+
+
+  return user;
+
+}
+
+
+
+// =====================================
+// TẠO YÊU CẦU NẠP
+// =====================================
+
+async function createTopup() {
+
+  const amountInput =
+    document.getElementById(
+      "topupAmount"
+    );
+
+
+  const noteInput =
+    document.getElementById(
+      "topupNote"
+    );
+
+
+  const button =
+    document.getElementById(
+      "topupButton"
+    );
+
+
+  const amount =
+    Number(amountInput.value);
+
+
+  const note =
+    noteInput.value.trim();
+
+
+  if (!amount || amount <= 0) {
+
+    alert(
+      "Vui lòng nhập số tiền hợp lệ."
+    );
+
     return;
 
   }
 
 
-  const username =
-    profile?.username ||
-    user.email.split("@")[0];
+  if (amount > 100000000) {
+
+    alert(
+      "Số tiền vượt quá giới hạn."
+    );
+
+    return;
+
+  }
 
 
-  const balance =
-    Number(profile?.balance || 0)
-      .toLocaleString("vi-VN");
+  button.disabled = true;
+
+  button.textContent =
+    "Đang gửi...";
 
 
-  document.getElementById("username")
-    .textContent =
-      username;
+  const {
+    data,
+    error
+  } =
+    await supabaseClient.rpc(
+      "create_topup_request",
+      {
+        p_amount: amount,
+        p_note: note || null
+      }
+    );
 
 
-  document.getElementById("balance")
-    .textContent =
-      balance + "đ";
+  button.disabled = false;
+
+  button.textContent =
+    "Tôi đã chuyển khoản";
 
 
-  loadOrders(user.id);
+  if (error) {
+
+    console.error(error);
+
+    alert(
+      "Lỗi: " +
+      error.message
+    );
+
+    return;
+
+  }
+
+
+  if (!data || !data.success) {
+
+    alert(
+      data?.message ||
+      "Không thể tạo yêu cầu."
+    );
+
+    return;
+
+  }
+
+
+  alert(
+    "✅ Đã gửi yêu cầu nạp tiền.\n\n" +
+    "Vui lòng chờ admin kiểm tra."
+  );
+
+
+  amountInput.value = "";
+
+  noteInput.value = "";
+
+
+  await loadTopups();
 
 }
 
 
-// ============================
-// LỊCH SỬ ĐƠN HÀNG
-// ============================
 
-async function loadOrders(userId) {
+// =====================================
+// LỊCH SỬ NẠP
+// =====================================
+
+async function loadTopups() {
 
   const container =
-    document.getElementById("orders");
+    document.getElementById(
+      "topups"
+    );
+
+
+  const {
+    data: { user }
+  } =
+    await supabaseClient.auth.getUser();
+
+
+  if (!user) {
+    return;
+  }
+
+
+  const {
+    data,
+    error
+  } =
+    await supabaseClient
+
+      .from("topup_requests")
+
+      .select(
+        "id, amount, status, note, created_at, processed_at"
+      )
+
+      .eq(
+        "user_id",
+        user.id
+      )
+
+      .order(
+        "created_at",
+        {
+          ascending: false
+        }
+      );
+
+
+  if (error) {
+
+    console.error(error);
+
+    container.innerHTML = `
+
+      <div class="empty">
+
+        Không thể tải lịch sử nạp.
+
+      </div>
+
+    `;
+
+    return;
+
+  }
+
+
+  if (!data || data.length === 0) {
+
+    container.innerHTML = `
+
+      <div class="empty">
+
+        Chưa có yêu cầu nạp tiền.
+
+      </div>
+
+    `;
+
+    return;
+
+  }
+
+
+  container.innerHTML =
+
+    data.map(item => {
+
+      let statusText =
+        "Đang chờ";
+
+
+      let statusClass =
+        "pending";
+
+
+      if (item.status === "approved") {
+
+        statusText =
+          "Đã duyệt";
+
+        statusClass =
+          "approved";
+
+      }
+
+
+      if (item.status === "rejected") {
+
+        statusText =
+          "Từ chối";
+
+        statusClass =
+          "rejected";
+
+      }
+
+
+      return `
+
+        <div class="item">
+
+          <div class="item-title">
+
+            ${formatMoney(item.amount)}
+
+          </div>
+
+
+          <div class="item-info">
+
+            Tạo lúc:
+            ${formatDate(item.created_at)}
+
+            ${
+              item.note
+                ? `<br>Ghi chú: ${item.note}`
+                : ""
+            }
+
+            ${
+              item.processed_at
+                ? `<br>Xử lý:
+                   ${formatDate(item.processed_at)}`
+                : ""
+            }
+
+          </div>
+
+
+          <span
+            class="status ${statusClass}"
+          >
+            ${statusText}
+          </span>
+
+        </div>
+
+      `;
+
+    }).join("");
+
+}
+
+
+
+// =====================================
+// LỊCH SỬ MUA
+// =====================================
+
+async function loadOrders() {
+
+  const container =
+    document.getElementById(
+      "orders"
+    );
+
+
+  const {
+    data: { user }
+  } =
+    await supabaseClient.auth.getUser();
+
+
+  if (!user) {
+    return;
+  }
 
 
   const {
@@ -429,7 +1035,10 @@ async function loadOrders(userId) {
 
       .select("*")
 
-      .eq("user_id", userId)
+      .eq(
+        "user_id",
+        user.id
+      )
 
       .order(
         "created_at",
@@ -479,9 +1088,9 @@ async function loadOrders(userId) {
 
     data.map(order => `
 
-      <div class="order">
+      <div class="item">
 
-        <div class="order-name">
+        <div class="item-title">
 
           ${
             order.product_name ||
@@ -490,26 +1099,16 @@ async function loadOrders(userId) {
 
         </div>
 
-        <div class="order-info">
+
+        <div class="item-info">
 
           Giá:
-
-          ${
-            Number(order.price || 0)
-              .toLocaleString("vi-VN")
-          }đ
+          ${formatMoney(order.price)}
 
           <br>
 
           Thời gian:
-
-          ${
-            order.created_at
-              ? new Date(
-                  order.created_at
-                ).toLocaleString("vi-VN")
-              : "Không rõ"
-          }
+          ${formatDate(order.created_at)}
 
         </div>
 
@@ -520,9 +1119,10 @@ async function loadOrders(userId) {
 }
 
 
-// ============================
+
+// =====================================
 // ĐĂNG XUẤT
-// ============================
+// =====================================
 
 async function logout() {
 
@@ -550,14 +1150,34 @@ async function logout() {
 }
 
 
-// ============================
-// KHỞI ĐỘNG
-// ============================
 
-loadAccount();
+// =====================================
+// KHỞI ĐỘNG
+// =====================================
+
+async function start() {
+
+  const user =
+    await loadAccount();
+
+
+  if (!user) {
+    return;
+  }
+
+
+  await loadTopups();
+
+  await loadOrders();
+
+}
+
+
+start();
 
 </script>
 
 </body>
+
 </html>
 ```
