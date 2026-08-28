@@ -1,1 +1,233 @@
 
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Vip6s2000 Shop</title>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
+    }
+
+    body {
+      background: #0f1117;
+      color: white;
+    }
+
+    header {
+      padding: 20px 7%;
+      background: #151923;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid #292e3a;
+    }
+
+    .logo {
+      font-size: 24px;
+      font-weight: bold;
+    }
+
+    .balance {
+      background: #202633;
+      padding: 10px 15px;
+      border-radius: 10px;
+    }
+
+    main {
+      width: 86%;
+      max-width: 1200px;
+      margin: 35px auto;
+    }
+
+    .hero {
+      background: linear-gradient(135deg, #202633, #171a24);
+      padding: 40px;
+      border-radius: 18px;
+      margin-bottom: 30px;
+    }
+
+    .hero h1 {
+      font-size: 38px;
+      margin-bottom: 10px;
+    }
+
+    .hero p {
+      color: #aeb5c4;
+    }
+
+    .products {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+      gap: 20px;
+    }
+
+    .product {
+      background: #171b24;
+      border: 1px solid #292e3a;
+      border-radius: 15px;
+      overflow: hidden;
+    }
+
+    .product img {
+      width: 100%;
+      height: 180px;
+      object-fit: cover;
+      background: #222733;
+    }
+
+    .product-info {
+      padding: 18px;
+    }
+
+    .product h3 {
+      margin-bottom: 8px;
+    }
+
+    .description {
+      color: #9da5b5;
+      font-size: 14px;
+      min-height: 40px;
+    }
+
+    .price {
+      margin: 15px 0;
+      font-size: 20px;
+      font-weight: bold;
+    }
+
+    button {
+      width: 100%;
+      padding: 11px;
+      border: none;
+      border-radius: 9px;
+      cursor: pointer;
+      font-weight: bold;
+      background: #ffffff;
+      color: #111;
+    }
+
+    button:hover {
+      opacity: 0.85;
+    }
+
+    .empty {
+      padding: 40px;
+      text-align: center;
+      color: #9299a8;
+    }
+
+    @media (max-width: 600px) {
+      .hero h1 {
+        font-size: 28px;
+      }
+
+      header {
+        padding: 15px 5%;
+      }
+
+      main {
+        width: 92%;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+<header>
+  <div class="logo">Vip6s2000 Shop</div>
+  <div class="balance">
+    Số dư: <span id="balance">0</span>đ
+  </div>
+</header>
+
+<main>
+
+  <section class="hero">
+    <h1>Vip6s2000 Shop</h1>
+    <p>Shop sản phẩm số — nhanh chóng và tiện lợi.</p>
+  </section>
+
+  <h2 style="margin-bottom:20px;">Sản phẩm</h2>
+
+  <section id="products" class="products">
+    <div class="empty">Đang tải sản phẩm...</div>
+  </section>
+
+</main>
+
+<script>
+  const SUPABASE_URL = "https://kyylvrhjtcbscdjoyxwn.supabase.co";
+  const SUPABASE_KEY = "sb_publishable_vcDgsPLVCyzMNIygMVDVoQ_f8t71Fad";
+
+  const supabaseClient = window.supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_KEY
+  );
+
+  async function loadProducts() {
+    const container = document.getElementById("products");
+
+    const { data, error } = await supabaseClient
+      .from("products")
+      .select("*")
+      .order("created_at", { ascending: false });
+
+    if (error) {
+      container.innerHTML =
+        '<div class="empty">Không thể tải sản phẩm.</div>';
+      console.error(error);
+      return;
+    }
+
+    if (!data || data.length === 0) {
+      container.innerHTML =
+        '<div class="empty">Shop chưa có sản phẩm.</div>';
+      return;
+    }
+
+    container.innerHTML = data.map(product => `
+      <div class="product">
+        <img
+          src="${product.image_url || 'https://via.placeholder.com/500x350?text=Product'}"
+          alt="${product.name}"
+        >
+
+        <div class="product-info">
+          <h3>${product.name}</h3>
+
+          <div class="description">
+            ${product.description || "Chưa có mô tả"}
+          </div>
+
+          <div class="price">
+            ${Number(product.price).toLocaleString("vi-VN")}đ
+          </div>
+
+          <button onclick="buyProduct('${product.id}')">
+            Mua ngay
+          </button>
+        </div>
+      </div>
+    `).join("");
+  }
+
+  function buyProduct(id) {
+    alert(
+      "Chức năng mua hàng sẽ được kết nối sau khi hoàn thành đăng nhập và ví tiền."
+    );
+  }
+
+  loadProducts();
+</script>
+
+</body>
+</html>
