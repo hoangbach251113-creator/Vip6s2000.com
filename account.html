@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tài khoản - Vip6s2000 Shop</title>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      font-family: Arial, sans-serif;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background: #0f1117;
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .box {
+      width: 90%;
+      max-width: 420px;
+      background: #171b24;
+      border: 1px solid #292e3a;
+      border-radius: 16px;
+      padding: 25px;
+    }
+
+    h1 {
+      text-align: center;
+      margin-bottom: 25px;
+    }
+
+    input {
+      width: 100%;
+      padding: 13px;
+      margin: 7px 0;
+      border: 1px solid #343b49;
+      border-radius: 9px;
+      background: #0f1117;
+      color: white;
+    }
+
+    button {
+      width: 100%;
+      padding: 13px;
+      margin-top: 10px;
+      border: 0;
+      border-radius: 9px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    .switch {
+      background: transparent;
+      color: #aaa;
+    }
+
+    .message {
+      margin-top: 15px;
+      text-align: center;
+      color: #aaa;
+    }
+
+    #registerBox {
+      display: none;
+    }
+  </style>
+</head>
+
+<body>
+
+<div class="box">
+
+  <!-- LOGIN -->
+  <div id="loginBox">
+    <h1>Đăng nhập</h1>
+
+    <input
+      id="loginEmail"
+      type="email"
+      placeholder="Email"
+    >
+
+    <input
+      id="loginPassword"
+      type="password"
+      placeholder="Mật khẩu"
+    >
+
+    <button onclick="login()">
+      Đăng nhập
+    </button>
+
+    <button class="switch" onclick="showRegister()">
+      Chưa có tài khoản? Đăng ký
+    </button>
+
+    <div class="message" id="loginMessage"></div>
+  </div>
+
+
+  <!-- REGISTER -->
+  <div id="registerBox">
+
+    <h1>Đăng ký</h1>
+
+    <input
+      id="registerUsername"
+      type="text"
+      placeholder="Tên tài khoản"
+    >
+
+    <input
+      id="registerEmail"
+      type="email"
+      placeholder="Email"
+    >
+
+    <input
+      id="registerPassword"
+      type="password"
+      placeholder="Mật khẩu"
+    >
+
+    <button onclick="register()">
+      Tạo tài khoản
+    </button>
+
+    <button class="switch" onclick="showLogin()">
+      Đã có tài khoản? Đăng nhập
+    </button>
+
+    <div class="message" id="registerMessage"></div>
+
+  </div>
+
+</div>
+
+
+<script>
+
+const SUPABASE_URL =
+  "https://kyylvrhjtcbscdjoyxwn.supabase.co";
+
+const SUPABASE_KEY =
+  "DÁN_PUBLISHABLE_KEY_CỦA_BẠN_VÀO_ĐÂY";
+
+const supabaseClient =
+  window.supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_KEY
+  );
+
+
+function showRegister() {
+
+  document.getElementById("loginBox")
+    .style.display = "none";
+
+  document.getElementById("registerBox")
+    .style.display = "block";
+
+}
+
+
+function showLogin() {
+
+  document.getElementById("registerBox")
+    .style.display = "none";
+
+  document.getElementById("loginBox")
+    .style.display = "block";
+
+}
+
+
+async function register() {
+
+  const username =
+    document.getElementById("registerUsername")
+      .value.trim();
+
+  const email =
+    document.getElementById("registerEmail")
+      .value.trim();
+
+  const password =
+    document.getElementById("registerPassword")
+      .value;
+
+  const message =
+    document.getElementById("registerMessage");
+
+  if (!username || !email || !password) {
+
+    message.textContent =
+      "Vui lòng nhập đầy đủ thông tin.";
+
+    return;
+
+  }
+
+  if (password.length < 6) {
+
+    message.textContent =
+      "Mật khẩu cần ít nhất 6 ký tự.";
+
+    return;
+
+  }
+
+  const { data, error } =
+    await supabaseClient.auth.signUp({
+
+      email,
+      password,
+
+      options: {
+        data: {
+          username: username
+        }
+      }
+
+    });
+
+  if (error) {
+
+    message.textContent =
+      "Lỗi: " + error.message;
+
+    return;
+
+  }
+
+  message.textContent =
+    "✅ Đăng ký thành công. Kiểm tra email nếu hệ thống yêu cầu xác nhận.";
+
+}
+
+
+async function login() {
+
+  const email =
+    document.getElementById("loginEmail")
+      .value.trim();
+
+  const password =
+    document.getElementById("loginPassword")
+      .value;
+
+  const message =
+    document.getElementById("loginMessage");
+
+  const { error } =
+    await supabaseClient.auth
+      .signInWithPassword({
+        email,
+        password
+      });
+
+  if (error) {
+
+    message.textContent =
+      "Lỗi: " + error.message;
+
+    return;
+
+  }
+
+  window.location.href = "index.html";
+
+}
+
+</script>
+
+</body>
+</html>
