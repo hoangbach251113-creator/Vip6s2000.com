@@ -1,468 +1,611 @@
-```html
 <!DOCTYPE html>
 <html lang="vi">
-
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-  <title>Tài khoản - Vip6s2000 Shop</title>
-
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
-  <style>
-
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-      font-family: Arial, sans-serif;
-    }
-
-    body {
-      background: #0f1117;
-      color: white;
-      min-height: 100vh;
-    }
-
-    header {
-      height: 70px;
-      padding: 0 7%;
-      background: #151923;
-      border-bottom: 1px solid #292e3a;
-
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-    }
-
-    .logo {
-      color: white;
-      text-decoration: none;
-      font-size: 23px;
-      font-weight: bold;
-    }
-
-    .logo:hover {
-      opacity: .85;
-    }
-
-    .home {
-      color: #c8ceda;
-      text-decoration: none;
-      background: #202633;
-      padding: 10px 15px;
-      border-radius: 9px;
-    }
-
-    .home:hover {
-      opacity: .85;
-    }
-
-    main {
-      width: 92%;
-      max-width: 900px;
-      margin: 35px auto;
-    }
-
-    .card {
-      background: #171b24;
-      border: 1px solid #292e3a;
-      border-radius: 18px;
-      padding: 25px;
-      margin-bottom: 20px;
-    }
-
-    .card h1 {
-      font-size: 28px;
-      margin-bottom: 20px;
-    }
-
-    .card h2 {
-      font-size: 22px;
-      margin-bottom: 8px;
-    }
-
-    /* ==========================
-       THÔNG TIN TÀI KHOẢN
-    ========================== */
-
-    .info {
-      display: grid;
-      gap: 12px;
-    }
-
-    .row {
-      background: #202633;
-      border-radius: 11px;
-      padding: 15px;
-    }
-
-    .label {
-      color: #9299a8;
-      font-size: 13px;
-      margin-bottom: 5px;
-    }
-
-    .value {
-      font-size: 16px;
-      word-break: break-all;
-    }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    .balance {
-      font-size: 30px;
-      font-weight: bold;
-    }
+<title>Vip6s2000 Shop - Tài khoản</title>
 
-    /* ==========================
-       NẠP TIỀN
-    ========================== */
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
-    .topup-card {
-      text-align: center;
-    }
+<style>
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: Arial, sans-serif;
+}
 
-    .topup-subtitle {
-      color: #9da5b5;
-      font-size: 14px;
-      margin-bottom: 25px;
-    }
+body {
+  background: #f5f7fb;
+  color: #202633;
+}
 
-    /* QR */
+/* SIDEBAR */
 
-    .qr-container {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-    }
+.sidebar {
+  position: fixed;
+  left: 0;
+  top: 0;
+  bottom: 0;
 
-    .qr-frame {
-      background: white;
-      padding: 12px;
-      border-radius: 18px;
+  width: 240px;
 
-      box-shadow:
-        0 12px 35px rgba(0, 0, 0, .35);
-    }
+  background: white;
+  border-right: 1px solid #e7eaf0;
 
-    .qr-frame img {
-      display: block;
+  padding: 20px 14px;
 
-      width: 280px;
-      height: 280px;
+  overflow-y: auto;
+}
 
-      object-fit: contain;
+.logo {
+  display: block;
 
-      border-radius: 10px;
-    }
+  padding: 15px 12px 25px;
 
-    .qr-hint {
-      color: #8f97a8;
-      font-size: 13px;
-      line-height: 1.6;
+  font-size: 21px;
+  font-weight: bold;
 
-      margin: 15px auto 25px;
+  color: #2563eb;
 
-      max-width: 500px;
-    }
+  text-decoration: none;
+}
 
-    /* FORM */
+.menu-title {
+  font-size: 11px;
+  color: #9aa1ad;
 
-    .topup-form {
-      max-width: 500px;
-      margin: 0 auto;
+  margin: 18px 10px 8px;
 
-      display: grid;
-      gap: 16px;
+  text-transform: uppercase;
+}
 
-      text-align: left;
-    }
+.menu a {
+  display: flex;
+  align-items: center;
 
-    .input-group {
-      display: grid;
-      gap: 7px;
-    }
+  gap: 12px;
 
-    .input-group label {
-      color: #dce1ea;
-      font-size: 14px;
-      font-weight: bold;
-    }
+  padding: 11px 13px;
 
-    .input-group input,
-    .input-group textarea {
-      width: 100%;
+  margin-bottom: 4px;
 
-      padding: 14px;
+  border-radius: 9px;
 
-      background: #202633;
-      color: white;
+  text-decoration: none;
 
-      border: 1px solid #343b4a;
-      border-radius: 11px;
+  color: #4b5563;
 
-      outline: none;
+  font-size: 14px;
+}
 
-      font-size: 15px;
-    }
+.menu a:hover {
+  background: #f0f4ff;
+  color: #2563eb;
+}
 
-    .input-group input:focus,
-    .input-group textarea:focus {
-      border-color: #7d8799;
+.menu a.active {
+  background: #eaf1ff;
+  color: #2563eb;
+  font-weight: bold;
+}
 
-      box-shadow:
-        0 0 0 3px rgba(125, 135, 153, .12);
-    }
+/* MAIN */
 
-    .input-group textarea {
-      min-height: 90px;
-      resize: vertical;
-    }
+.main {
+  margin-left: 240px;
 
-    .topup-button {
-      width: 100%;
+  min-height: 100vh;
+}
 
-      padding: 14px;
+/* TOPBAR */
 
-      border: none;
-      border-radius: 11px;
+.topbar {
+  height: 65px;
 
-      background: white;
-      color: #111;
+  background: white;
 
-      font-size: 15px;
-      font-weight: bold;
+  border-bottom: 1px solid #e7eaf0;
 
-      cursor: pointer;
-    }
+  display: flex;
 
-    .topup-button:hover {
-      opacity: .88;
-      transform: translateY(-1px);
-    }
+  align-items: center;
 
-    .topup-button:disabled {
-      opacity: .5;
-      cursor: not-allowed;
-      transform: none;
-    }
+  justify-content: space-between;
 
-    /* ==========================
-       LỊCH SỬ
-    ========================== */
+  padding: 0 30px;
+}
 
-    .list {
-      display: grid;
-      gap: 12px;
-      margin-top: 18px;
-    }
+.page-title {
+  font-size: 18px;
+  font-weight: bold;
+}
 
-    .item {
-      background: #202633;
-      border-radius: 11px;
-      padding: 15px;
-    }
+.user-mini {
+  background: #f3f6fb;
 
-    .item-title {
-      font-weight: bold;
-      margin-bottom: 7px;
-    }
+  padding: 9px 14px;
 
-    .item-info {
-      color: #9da5b5;
-      font-size: 14px;
-      line-height: 1.7;
-    }
+  border-radius: 9px;
 
-    .status {
-      display: inline-block;
+  font-size: 13px;
+}
 
-      margin-top: 8px;
+/* CONTENT */
 
-      padding: 5px 9px;
+.content {
+  padding: 30px;
 
-      border-radius: 7px;
+  max-width: 1200px;
 
-      font-size: 12px;
+  margin: auto;
+}
 
-      font-weight: bold;
-    }
+/* CARDS */
 
-    .pending {
-      background: #40371c;
-      color: #ffd86b;
-    }
+.card {
+  background: white;
 
-    .approved {
-      background: #193b2b;
-      color: #72e0a0;
-    }
+  border: 1px solid #e6e9ef;
 
-    .rejected {
-      background: #422126;
-      color: #ff8f9b;
-    }
+  border-radius: 13px;
 
-    .empty {
-      text-align: center;
+  padding: 22px;
 
-      color: #9299a8;
+  margin-bottom: 20px;
 
-      padding: 25px;
+  box-shadow: 0 2px 8px rgba(0,0,0,.03);
+}
 
-      background: #202633;
+.card-title {
+  font-size: 17px;
 
-      border-radius: 10px;
-    }
+  font-weight: bold;
 
-    /* ==========================
-       ĐĂNG XUẤT
-    ========================== */
+  margin-bottom: 18px;
+}
 
-    .logout {
-      width: 100%;
+/* STATS */
 
-      padding: 13px;
+.stats {
+  display: grid;
 
-      border: none;
-      border-radius: 10px;
+  grid-template-columns:
+    repeat(3, 1fr);
 
-      background: #2b303c;
-      color: white;
+  gap: 18px;
 
-      font-weight: bold;
+  margin-bottom: 20px;
+}
 
-      cursor: pointer;
+.stat {
+  background: white;
 
-      margin-top: 20px;
-    }
+  border: 1px solid #e6e9ef;
 
-    .logout:hover {
-      opacity: .85;
-    }
+  border-radius: 13px;
 
-    /* ==========================
-       MOBILE
-    ========================== */
+  padding: 20px;
 
-    @media (max-width: 600px) {
+  box-shadow: 0 2px 8px rgba(0,0,0,.03);
+}
 
-      header {
-        padding: 0 5%;
-      }
+.stat-label {
+  color: #8b94a3;
 
-      .logo {
-        font-size: 18px;
-      }
+  font-size: 13px;
 
-      .home {
-        padding: 8px 10px;
-        font-size: 13px;
-      }
+  margin-bottom: 10px;
+}
 
-      main {
-        width: 92%;
-      }
+.stat-value {
+  font-size: 25px;
 
-      .card {
-        padding: 18px;
-      }
+  font-weight: bold;
 
-      .card h1 {
-        font-size: 24px;
-      }
+  color: #2563eb;
+}
 
-      .qr-frame img {
-        width: 230px;
-        height: 230px;
-      }
+/* ACCOUNT */
 
-    }
+.account-grid {
+  display: grid;
 
-  </style>
+  grid-template-columns:
+    1fr 1fr;
 
+  gap: 15px;
+}
+
+.info-box {
+  background: #f7f9fc;
+
+  border-radius: 10px;
+
+  padding: 15px;
+}
+
+.info-label {
+  font-size: 12px;
+
+  color: #8b94a3;
+
+  margin-bottom: 6px;
+}
+
+.info-value {
+  font-size: 15px;
+
+  font-weight: 600;
+
+  word-break: break-all;
+}
+
+/* TOPUP */
+
+.topup-layout {
+  display: grid;
+
+  grid-template-columns:
+    330px 1fr;
+
+  gap: 35px;
+
+  align-items: center;
+}
+
+.qr-area {
+  text-align: center;
+}
+
+.qr-area img {
+  width: 280px;
+
+  height: 280px;
+
+  object-fit: contain;
+
+  padding: 10px;
+
+  background: white;
+
+  border: 1px solid #e1e5eb;
+
+  border-radius: 12px;
+}
+
+.qr-text {
+  margin-top: 12px;
+
+  color: #8b94a3;
+
+  font-size: 13px;
+}
+
+/* FORM */
+
+.form {
+  display: grid;
+
+  gap: 15px;
+}
+
+.form-group {
+  display: grid;
+
+  gap: 7px;
+}
+
+.form-group label {
+  font-size: 13px;
+
+  font-weight: bold;
+}
+
+.form-group input,
+.form-group textarea {
+  width: 100%;
+
+  padding: 13px;
+
+  border: 1px solid #dfe4ec;
+
+  border-radius: 9px;
+
+  background: #fafbfc;
+
+  outline: none;
+
+  font-size: 14px;
+}
+
+.form-group input:focus,
+.form-group textarea:focus {
+  border-color: #2563eb;
+
+  background: white;
+}
+
+.form-group textarea {
+  min-height: 90px;
+
+  resize: vertical;
+}
+
+.btn {
+  border: none;
+
+  border-radius: 9px;
+
+  padding: 13px;
+
+  background: #2563eb;
+
+  color: white;
+
+  font-weight: bold;
+
+  cursor: pointer;
+}
+
+.btn:hover {
+  opacity: .9;
+}
+
+.btn:disabled {
+  opacity: .5;
+}
+
+/* LIST */
+
+.list {
+  display: grid;
+
+  gap: 10px;
+}
+
+.item {
+  background: #f7f9fc;
+
+  border-radius: 10px;
+
+  padding: 15px;
+
+  display: flex;
+
+  justify-content: space-between;
+
+  align-items: center;
+
+  gap: 15px;
+}
+
+.item-title {
+  font-weight: bold;
+
+  margin-bottom: 5px;
+}
+
+.item-info {
+  color: #8b94a3;
+
+  font-size: 13px;
+
+  line-height: 1.6;
+}
+
+.status {
+  padding: 6px 10px;
+
+  border-radius: 7px;
+
+  font-size: 11px;
+
+  font-weight: bold;
+
+  white-space: nowrap;
+}
+
+.pending {
+  background: #fff4d6;
+
+  color: #a36a00;
+}
+
+.approved {
+  background: #dff7e8;
+
+  color: #168347;
+}
+
+.rejected {
+  background: #ffe1e5;
+
+  color: #c53648;
+}
+
+.empty {
+  text-align: center;
+
+  padding: 25px;
+
+  color: #8b94a3;
+}
+
+/* LOGOUT */
+
+.logout {
+  width: 100%;
+
+  border: none;
+
+  background: #fff0f1;
+
+  color: #d33b4b;
+
+  padding: 11px;
+
+  border-radius: 9px;
+
+  cursor: pointer;
+
+  font-weight: bold;
+
+  margin-top: 15px;
+}
+
+/* MOBILE */
+
+@media(max-width: 800px) {
+
+  .sidebar {
+    width: 190px;
+  }
+
+  .main {
+    margin-left: 190px;
+  }
+
+  .topup-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .qr-area img {
+    width: 240px;
+    height: 240px;
+  }
+
+  .stats {
+    grid-template-columns: 1fr;
+  }
+
+}
+
+@media(max-width: 600px) {
+
+  .sidebar {
+    position: static;
+
+    width: 100%;
+
+    height: auto;
+
+    border-right: none;
+
+    border-bottom: 1px solid #e7eaf0;
+  }
+
+  .main {
+    margin-left: 0;
+  }
+
+  .menu {
+    display: flex;
+
+    overflow-x: auto;
+  }
+
+  .menu-title {
+    display: none;
+  }
+
+  .menu a {
+    white-space: nowrap;
+  }
+
+  .content {
+    padding: 15px;
+  }
+
+  .account-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .topbar {
+    padding: 0 15px;
+  }
+
+}
+</style>
 </head>
-
 
 <body>
 
+<!-- SIDEBAR -->
 
-<header>
+<aside class="sidebar">
 
-  <a
-    href="./index.html"
-    class="logo"
-  >
+  <a href="./index.html" class="logo">
     Vip6s2000 Shop
   </a>
 
+  <div class="menu-title">
+    MENU
+  </div>
 
-  <a
-    href="./index.html"
-    class="home"
-  >
-    Trang chủ
-  </a>
+  <nav class="menu">
 
-</header>
+    <a href="./index.html">
+      🏠 Trang chủ
+    </a>
 
+    <a href="#topup">
+      💰 Nạp tiền
+    </a>
 
-<main>
+    <a href="#orders">
+      🛒 Đơn hàng
+    </a>
 
+    <a href="#account" class="active">
+      👤 Tài khoản
+    </a>
 
-  <!-- ==========================
-       TÀI KHOẢN
-  ========================== -->
+  </nav>
 
-  <section class="card">
-
-    <h1>
-      Tài khoản của tôi
-    </h1>
-
-
-    <div class="info">
-
-      <div class="row">
-
-        <div class="label">
-          Tên tài khoản
-        </div>
-
-        <div
-          class="value"
-          id="username"
-        >
-          Đang tải...
-        </div>
-
-      </div>
+</aside>
 
 
-      <div class="row">
+<!-- MAIN -->
 
-        <div class="label">
-          Email
-        </div>
+<div class="main">
 
-        <div
-          class="value"
-          id="email"
-        >
-          Đang tải...
-        </div>
+  <!-- TOPBAR -->
 
-      </div>
+  <header class="topbar">
+
+    <div class="page-title">
+      Tài khoản
+    </div>
+
+    <div
+      class="user-mini"
+      id="userMini"
+    >
+      Đang tải...
+    </div>
+
+  </header>
 
 
-      <div class="row">
+  <!-- CONTENT -->
 
-        <div class="label">
+  <main class="content">
+
+
+    <!-- STATS -->
+
+    <section class="stats">
+
+      <div class="stat">
+
+        <div class="stat-label">
           Số dư
         </div>
 
         <div
-          class="balance"
+          class="stat-value"
           id="balance"
         >
           0đ
@@ -470,181 +613,246 @@
 
       </div>
 
-    </div>
+
+      <div class="stat">
+
+        <div class="stat-label">
+          Trạng thái
+        </div>
+
+        <div class="stat-value">
+          Hoạt động
+        </div>
+
+      </div>
 
 
-    <button
-      class="logout"
-      onclick="logout()"
+      <div class="stat">
+
+        <div class="stat-label">
+          Tài khoản
+        </div>
+
+        <div
+          class="stat-value"
+          id="username"
+        >
+          ...
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- ACCOUNT -->
+
+    <section
+      class="card"
+      id="account"
     >
-      Đăng xuất
-    </button>
 
-  </section>
-
-
-
-  <!-- ==========================
-       NẠP TIỀN
-  ========================== -->
-
-  <section class="card topup-card">
-
-    <h2>
-      💰 Nạp tiền
-    </h2>
-
-
-    <p class="topup-subtitle">
-
-      Quét mã QR bên dưới để chuyển khoản
-
-    </p>
-
-
-    <!-- QR Ở GIỮA -->
-
-    <div class="qr-container">
-
-      <div class="qr-frame">
-
-        <img
-          src="https://i.postimg.cc/wBX4sDtd/1787827694385-696929691253049774-8699560983222085822-94543adeb257cbe2ab14e39c8e798af6.jpg"
-          alt="QR nạp tiền"
-        >
-
-      </div>
-
-    </div>
-
-
-    <div class="qr-hint">
-
-      Sau khi chuyển khoản thành công,
-      hãy nhập số tiền và nội dung chuyển khoản
-      bên dưới rồi gửi yêu cầu.
-
-    </div>
-
-
-    <!-- FORM -->
-
-    <div class="topup-form">
-
-
-      <div class="input-group">
-
-        <label for="topupAmount">
-          💰 Số tiền
-        </label>
-
-        <input
-          id="topupAmount"
-          type="number"
-          min="1"
-          placeholder="Ví dụ: 100000"
-        >
-
+      <div class="card-title">
+        👤 Thông tin tài khoản
       </div>
 
 
-      <div class="input-group">
+      <div class="account-grid">
 
-        <label for="topupNote">
-          📝 Nội dung chuyển khoản
-        </label>
+        <div class="info-box">
 
-        <textarea
-          id="topupNote"
-          placeholder="Nhập nội dung chuyển khoản..."
-        ></textarea>
+          <div class="info-label">
+            Tên tài khoản
+          </div>
+
+          <div
+            class="info-value"
+            id="accountUsername"
+          >
+            Đang tải...
+          </div>
+
+        </div>
+
+
+        <div class="info-box">
+
+          <div class="info-label">
+            Email
+          </div>
+
+          <div
+            class="info-value"
+            id="email"
+          >
+            Đang tải...
+          </div>
+
+        </div>
 
       </div>
 
+    </section>
+
+
+    <!-- TOPUP -->
+
+    <section
+      class="card"
+      id="topup"
+    >
+
+      <div class="card-title">
+        💰 Nạp tiền
+      </div>
+
+
+      <div class="topup-layout">
+
+
+        <!-- QR -->
+
+        <div class="qr-area">
+
+          <img
+            src="https://i.postimg.cc/wBX4sDtd/1787827694385-696929691253049774-8699560983222085822-94543adeb257cbe2ab14e39c8e798af6.jpg"
+            alt="QR nạp tiền"
+          >
+
+          <div class="qr-text">
+            Quét QR để chuyển khoản
+          </div>
+
+        </div>
+
+
+        <!-- FORM -->
+
+        <div class="form">
+
+
+          <div class="form-group">
+
+            <label>
+              💰 Số tiền
+            </label>
+
+            <input
+              id="topupAmount"
+              type="number"
+              min="1"
+              placeholder="Nhập số tiền"
+            >
+
+          </div>
+
+
+          <div class="form-group">
+
+            <label>
+              📝 Nội dung chuyển khoản
+            </label>
+
+            <textarea
+              id="topupNote"
+              placeholder="Nhập nội dung chuyển khoản"
+            ></textarea>
+
+          </div>
+
+
+          <button
+            class="btn"
+            id="topupButton"
+            onclick="createTopup()"
+          >
+            ✓ Tôi đã chuyển khoản
+          </button>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- TOPUP HISTORY -->
+
+    <section class="card">
+
+      <div class="card-title">
+        📋 Lịch sử nạp tiền
+      </div>
+
+      <div
+        class="list"
+        id="topups"
+      >
+
+        <div class="empty">
+          Đang tải...
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- ORDERS -->
+
+    <section
+      class="card"
+      id="orders"
+    >
+
+      <div class="card-title">
+        🛒 Đơn hàng của tôi
+      </div>
+
+      <div
+        class="list"
+        id="ordersList"
+      >
+
+        <div class="empty">
+          Đang tải...
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- LOGOUT -->
+
+    <section class="card">
 
       <button
-        class="topup-button"
-        id="topupButton"
-        onclick="createTopup()"
+        class="logout"
+        onclick="logout()"
       >
-        ✓ Tôi đã chuyển khoản
+        Đăng xuất
       </button>
 
-    </div>
-
-  </section>
+    </section>
 
 
+  </main>
 
-  <!-- ==========================
-       LỊCH SỬ NẠP
-  ========================== -->
-
-  <section class="card">
-
-    <h2>
-      📋 Lịch sử nạp tiền
-    </h2>
-
-
-    <div
-      id="topups"
-      class="list"
-    >
-
-      <div class="empty">
-        Đang tải...
-      </div>
-
-    </div>
-
-  </section>
-
-
-
-  <!-- ==========================
-       LỊCH SỬ ĐƠN HÀNG
-  ========================== -->
-
-  <section class="card">
-
-    <h2>
-      🛒 Lịch sử mua hàng
-    </h2>
-
-
-    <div
-      id="orders"
-      class="list"
-    >
-
-      <div class="empty">
-        Đang tải...
-      </div>
-
-    </div>
-
-  </section>
-
-
-</main>
-
+</div>
 
 
 <script>
 
-
-// =====================================
-// SUPABASE
-// =====================================
+/* =================================
+   SUPABASE
+================================= */
 
 const SUPABASE_URL =
   "https://kyylvrhjtcbscdjoyxwn.supabase.co";
 
-
 const SUPABASE_KEY =
   "sb_publishable_vcDgsPLVCyzMNIygMVDVoQ_f8t71Fad";
-
 
 const supabaseClient =
   window.supabase.createClient(
@@ -653,29 +861,20 @@ const supabaseClient =
   );
 
 
+/* =================================
+   FORMAT
+================================= */
 
-// =====================================
-// FORMAT TIỀN
-// =====================================
-
-function formatMoney(value) {
+function money(value) {
 
   return Number(value || 0)
     .toLocaleString("vi-VN") + "đ";
 
 }
 
+function dateFormat(value) {
 
-
-// =====================================
-// FORMAT NGÀY
-// =====================================
-
-function formatDate(value) {
-
-  if (!value) {
-    return "Không rõ";
-  }
+  if (!value) return "Không rõ";
 
   return new Date(value)
     .toLocaleString("vi-VN");
@@ -683,10 +882,9 @@ function formatDate(value) {
 }
 
 
-
-// =====================================
-// TẢI TÀI KHOẢN
-// =====================================
+/* =================================
+   ACCOUNT
+================================= */
 
 async function loadAccount() {
 
@@ -709,53 +907,43 @@ async function loadAccount() {
 
   document.getElementById("email")
     .textContent =
-      user.email || "Không có";
+    user.email || "Không có";
+
+
+  document.getElementById("userMini")
+    .textContent =
+    user.email || "Tài khoản";
 
 
   const {
-    data: profile,
-    error: profileError
+    data: profile
   } =
     await supabaseClient
-
       .from("profiles")
-
-      .select("username, balance")
-
+      .select("username,balance")
       .eq("id", user.id)
-
       .maybeSingle();
 
 
-  if (profileError) {
-
-    console.error(profileError);
-
-    document.getElementById("username")
-      .textContent =
-        user.email.split("@")[0];
-
-    document.getElementById("balance")
-      .textContent =
-        "0đ";
-
-  }
-
-  else {
-
-    document.getElementById("username")
-      .textContent =
-        profile?.username ||
-        user.email.split("@")[0];
+  const name =
+    profile?.username ||
+    user.email.split("@")[0];
 
 
-    document.getElementById("balance")
-      .textContent =
-        formatMoney(
-          profile?.balance
-        );
+  const balance =
+    profile?.balance || 0;
 
-  }
+
+  document.getElementById("username")
+    .textContent = name;
+
+
+  document.getElementById("accountUsername")
+    .textContent = name;
+
+
+  document.getElementById("balance")
+    .textContent = money(balance);
 
 
   return user;
@@ -763,23 +951,24 @@ async function loadAccount() {
 }
 
 
-
-// =====================================
-// TẠO YÊU CẦU NẠP
-// =====================================
+/* =================================
+   TOPUP
+================================= */
 
 async function createTopup() {
 
-  const amountInput =
-    document.getElementById(
-      "topupAmount"
+  const amount =
+    Number(
+      document.getElementById(
+        "topupAmount"
+      ).value
     );
 
 
-  const noteInput =
+  const note =
     document.getElementById(
       "topupNote"
-    );
+    ).value.trim();
 
 
   const button =
@@ -788,29 +977,10 @@ async function createTopup() {
     );
 
 
-  const amount =
-    Number(amountInput.value);
-
-
-  const note =
-    noteInput.value.trim();
-
-
   if (!amount || amount <= 0) {
 
     alert(
       "Vui lòng nhập số tiền hợp lệ."
-    );
-
-    return;
-
-  }
-
-
-  if (amount > 100000000) {
-
-    alert(
-      "Số tiền vượt quá giới hạn."
     );
 
     return;
@@ -845,11 +1015,8 @@ async function createTopup() {
 
   if (error) {
 
-    console.error(error);
-
     alert(
-      "Lỗi: " +
-      error.message
+      "Lỗi: " + error.message
     );
 
     return;
@@ -857,11 +1024,11 @@ async function createTopup() {
   }
 
 
-  if (!data || !data.success) {
+  if (!data?.success) {
 
     alert(
       data?.message ||
-      "Không thể tạo yêu cầu."
+      "Không thể gửi yêu cầu."
     );
 
     return;
@@ -870,25 +1037,28 @@ async function createTopup() {
 
 
   alert(
-    "✅ Đã gửi yêu cầu nạp tiền!\n\n" +
-    "Admin sẽ kiểm tra và xử lý."
+    "✅ Đã gửi yêu cầu nạp tiền!"
   );
 
 
-  amountInput.value = "";
+  document.getElementById(
+    "topupAmount"
+  ).value = "";
 
-  noteInput.value = "";
+
+  document.getElementById(
+    "topupNote"
+  ).value = "";
 
 
-  await loadTopups();
+  loadTopups();
 
 }
 
 
-
-// =====================================
-// LỊCH SỬ NẠP
-// =====================================
+/* =================================
+   TOPUP HISTORY
+================================= */
 
 async function loadTopups() {
 
@@ -904,9 +1074,7 @@ async function loadTopups() {
     await supabaseClient.auth.getUser();
 
 
-  if (!user) {
-    return;
-  }
+  if (!user) return;
 
 
   const {
@@ -918,7 +1086,7 @@ async function loadTopups() {
       .from("topup_requests")
 
       .select(
-        "id, amount, status, note, created_at, processed_at"
+        "id,amount,status,note,created_at,processed_at"
       )
 
       .eq(
@@ -934,35 +1102,12 @@ async function loadTopups() {
       );
 
 
-  if (error) {
-
-    console.error(error);
+  if (error || !data?.length) {
 
     container.innerHTML = `
-
       <div class="empty">
-
-        Không thể tải lịch sử nạp.
-
-      </div>
-
-    `;
-
-    return;
-
-  }
-
-
-  if (!data || data.length === 0) {
-
-    container.innerHTML = `
-
-      <div class="empty">
-
         Chưa có yêu cầu nạp tiền.
-
       </div>
-
     `;
 
     return;
@@ -971,23 +1116,21 @@ async function loadTopups() {
 
 
   container.innerHTML =
-
     data.map(item => {
 
-      let statusText =
+      let text =
         "Đang chờ";
 
-
-      let statusClass =
+      let cls =
         "pending";
 
 
       if (item.status === "approved") {
 
-        statusText =
+        text =
           "Đã duyệt";
 
-        statusClass =
+        cls =
           "approved";
 
       }
@@ -995,10 +1138,10 @@ async function loadTopups() {
 
       if (item.status === "rejected") {
 
-        statusText =
+        text =
           "Từ chối";
 
-        statusClass =
+        cls =
           "rejected";
 
       }
@@ -1008,41 +1151,28 @@ async function loadTopups() {
 
         <div class="item">
 
-          <div class="item-title">
+          <div>
 
-            ${formatMoney(item.amount)}
+            <div class="item-title">
+              ${money(item.amount)}
+            </div>
+
+            <div class="item-info">
+
+              ${dateFormat(item.created_at)}
+
+              ${
+                item.note
+                ? `<br>Nội dung: ${item.note}`
+                : ""
+              }
+
+            </div>
 
           </div>
 
-
-          <div class="item-info">
-
-            Tạo lúc:
-            ${formatDate(item.created_at)}
-
-            ${
-              item.note
-                ? `<br>Nội dung:
-                   ${item.note}`
-                : ""
-            }
-
-            ${
-              item.processed_at
-                ? `<br>Xử lý:
-                   ${formatDate(item.processed_at)}`
-                : ""
-            }
-
-          </div>
-
-
-          <span
-            class="status ${statusClass}"
-          >
-
-            ${statusText}
-
+          <span class="status ${cls}">
+            ${text}
           </span>
 
         </div>
@@ -1054,16 +1184,15 @@ async function loadTopups() {
 }
 
 
-
-// =====================================
-// LỊCH SỬ MUA
-// =====================================
+/* =================================
+   ORDERS
+================================= */
 
 async function loadOrders() {
 
   const container =
     document.getElementById(
-      "orders"
+      "ordersList"
     );
 
 
@@ -1073,9 +1202,7 @@ async function loadOrders() {
     await supabaseClient.auth.getUser();
 
 
-  if (!user) {
-    return;
-  }
+  if (!user) return;
 
 
   const {
@@ -1101,35 +1228,12 @@ async function loadOrders() {
       );
 
 
-  if (error) {
-
-    console.error(error);
+  if (error || !data?.length) {
 
     container.innerHTML = `
-
       <div class="empty">
-
-        Chưa có đơn hàng.
-
+        Bạn chưa có đơn hàng.
       </div>
-
-    `;
-
-    return;
-
-  }
-
-
-  if (!data || data.length === 0) {
-
-    container.innerHTML = `
-
-      <div class="empty">
-
-        Bạn chưa mua sản phẩm nào.
-
-      </div>
-
     `;
 
     return;
@@ -1138,30 +1242,26 @@ async function loadOrders() {
 
 
   container.innerHTML =
-
     data.map(order => `
 
       <div class="item">
 
-        <div class="item-title">
+        <div>
 
-          ${
-            order.product_name ||
-            "Sản phẩm"
-          }
+          <div class="item-title">
+            ${order.product_name || "Sản phẩm"}
+          </div>
 
-        </div>
+          <div class="item-info">
 
+            Giá:
+            ${money(order.price)}
 
-        <div class="item-info">
+            <br>
 
-          Giá:
-          ${formatMoney(order.price)}
+            ${dateFormat(order.created_at)}
 
-          <br>
-
-          Thời gian:
-          ${formatDate(order.created_at)}
+          </div>
 
         </div>
 
@@ -1172,30 +1272,13 @@ async function loadOrders() {
 }
 
 
-
-// =====================================
-// ĐĂNG XUẤT
-// =====================================
+/* =================================
+   LOGOUT
+================================= */
 
 async function logout() {
 
-  const {
-    error
-  } =
-    await supabaseClient.auth.signOut();
-
-
-  if (error) {
-
-    alert(
-      "Không thể đăng xuất: " +
-      error.message
-    );
-
-    return;
-
-  }
-
+  await supabaseClient.auth.signOut();
 
   window.location.href =
     "./index.html";
@@ -1203,21 +1286,16 @@ async function logout() {
 }
 
 
-
-// =====================================
-// KHỞI ĐỘNG
-// =====================================
+/* =================================
+   START
+================================= */
 
 async function start() {
 
   const user =
     await loadAccount();
 
-
-  if (!user) {
-    return;
-  }
-
+  if (!user) return;
 
   await loadTopups();
 
@@ -1225,13 +1303,9 @@ async function start() {
 
 }
 
-
 start();
 
 </script>
 
-
 </body>
-
 </html>
-```
