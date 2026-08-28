@@ -4,6 +4,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
   <title>Vip6s2000 Shop</title>
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
@@ -35,7 +36,7 @@
       font-weight: bold;
     }
 
-    .account-status {
+    #accountStatus {
       background: #202633;
       padding: 10px 15px;
       border-radius: 10px;
@@ -126,10 +127,6 @@
     }
 
     @media (max-width: 600px) {
-      .hero h1 {
-        font-size: 28px;
-      }
-
       header {
         padding: 15px 5%;
       }
@@ -142,9 +139,13 @@
         font-size: 19px;
       }
 
-      .account-status {
+      #accountStatus {
         padding: 8px 10px;
         font-size: 12px;
+      }
+
+      .hero h1 {
+        font-size: 28px;
       }
     }
   </style>
@@ -158,10 +159,7 @@
     Vip6s2000 Shop
   </div>
 
-  <span
-    id="accountStatus"
-    class="account-status"
-  >
+  <span id="accountStatus">
     Đang kiểm tra...
   </span>
 
@@ -188,10 +186,7 @@
   </h2>
 
 
-  <section
-    id="products"
-    class="products"
-  >
+  <section id="products" class="products">
 
     <div class="empty">
       Đang tải sản phẩm...
@@ -218,9 +213,9 @@ const supabaseClient =
   );
 
 
-// ==========================
-// TẢI TÀI KHOẢN
-// ==========================
+// ============================
+// HIỂN THỊ USER
+// ============================
 
 async function loadAccount() {
 
@@ -230,24 +225,20 @@ async function loadAccount() {
 
   const {
     data: { user },
-    error: userError
+    error
   } =
     await supabaseClient.auth.getUser();
 
 
-  // Chưa đăng nhập
-
-  if (userError || !user) {
+  if (error || !user) {
 
     status.textContent =
       "Chưa đăng nhập";
 
     return;
+
   }
 
-
-  // Đã đăng nhập
-  // Lấy profile
 
   const {
     data: profile,
@@ -264,44 +255,29 @@ async function loadAccount() {
       .maybeSingle();
 
 
-  // Không đọc được profile
-
   if (profileError) {
 
     console.error(
-      "Profile error:",
       profileError
     );
 
     status.textContent =
-      "Đã đăng nhập";
+      user.email;
 
     return;
-  }
 
-
-  // Không có profile
-
-  if (!profile) {
-
-    status.textContent =
-      "Đã đăng nhập";
-
-    return;
   }
 
 
   const username =
-    profile.username ||
+    profile?.username ||
     user.email.split("@")[0];
 
 
   const balance =
-    Number(profile.balance || 0)
+    Number(profile?.balance || 0)
       .toLocaleString("vi-VN");
 
-
-  // Chỉ hiện tên + số dư
 
   status.textContent =
     username + " • " +
@@ -310,9 +286,9 @@ async function loadAccount() {
 }
 
 
-// ==========================
-// TẢI SẢN PHẨM
-// ==========================
+// ============================
+// HIỂN THỊ SẢN PHẨM
+// ============================
 
 async function loadProducts() {
 
@@ -355,6 +331,7 @@ async function loadProducts() {
     console.error(error);
 
     return;
+
   }
 
 
@@ -371,6 +348,7 @@ async function loadProducts() {
     `;
 
     return;
+
   }
 
 
@@ -383,7 +361,7 @@ async function loadProducts() {
         <img
           src="${
             product.image_url ||
-            'https://via.placeholder.com/500x350?text=Product'
+            "https://via.placeholder.com/500x350?text=Product"
           }"
           alt="${product.name}"
         >
@@ -416,9 +394,7 @@ async function loadProducts() {
             class="buy-button"
             onclick="buyProduct('${product.id}')"
           >
-
             Mua ngay
-
           </button>
 
         </div>
@@ -430,22 +406,22 @@ async function loadProducts() {
 }
 
 
-// ==========================
+// ============================
 // MUA SẢN PHẨM
-// ==========================
+// ============================
 
 function buyProduct(id) {
 
   alert(
-    "Chức năng mua hàng sẽ được kết nối sau khi hoàn thành ví tiền."
+    "Chức năng mua hàng sẽ được kết nối sau."
   );
 
 }
 
 
-// ==========================
+// ============================
 // KHỞI ĐỘNG
-// ==========================
+// ============================
 
 async function startShop() {
 
