@@ -181,12 +181,16 @@
       .select("*")
       .order("created_at", { ascending: false });
 
-    if (error) {
-      container.innerHTML =
-        '<div class="empty">Không thể tải sản phẩm.</div>';
-      console.error(error);
-      return;
-    }
+   if (error) {
+  container.innerHTML = `
+    <div class="empty">
+      Lỗi tải sản phẩm:<br>
+      ${error.message}
+    </div>
+  `;
+  console.error(error);
+  return;
+}
 
     if (!data || data.length === 0) {
       container.innerHTML =
